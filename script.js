@@ -1,31 +1,42 @@
 // 커버 화면용 눈 내리는 효과 (5초간만)
 let snowInterval;
 
-function createSnowflake(isCover = false) {
-  const snowflake = document.createElement('div');
-  snowflake.classList.add('snowflake');
-  if (isCover) snowflake.classList.add('cover-snow');
-  snowflake.innerHTML = '❄';
-  snowflake.style.left = Math.random() * window.innerWidth + 'px';
-  snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-  snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-  snowflake.style.animationDuration = (Math.random() * 3 + 5) + 's';
-  snowflake.style.animationDelay = Math.random() * 2 + 's';
+// ===== Naver Map Init =====
+document.addEventListener('DOMContentLoaded', () => {
+  // 지도의 중심 좌표
+  const position = new naver.maps.LatLng(37.5489, 126.9125);
 
-  document.body.appendChild(snowflake);
+  // 지도 생성
+  const map = new naver.maps.Map('naver-map', {
+    center: position,
+    zoom: 16,             // 16~17 정도가 예식장 주변 보기 좋아요
+    minZoom: 7,
+    maxZoom: 20,
+    mapDataControl: false // 우측 하단 로고/제어 일부 최소화
+  });
 
-  setTimeout(() => {
-    snowflake.remove();
-  }, 8000);
-}
+  // 마커 추가
+  const marker = new naver.maps.Marker({
+    position,
+    map,
+    title: '웨딩시그니처'
+  });
 
-// 커버 화면에서만 눈 내리기 (5초간)
-snowInterval = setInterval(() => createSnowflake(true), 200);
-
-// 5초 후 눈 내리기 중단
-setTimeout(() => {
-  clearInterval(snowInterval);
-}, 5000);
+  // 인포윈도우(선택)
+  const info = new naver.maps.InfoWindow({
+    content: `
+      <div style="padding:8px 12px; font-size:13px;">
+        <strong>웨딩시그니처</strong><br/>
+        서울시 마포구 양화로 87<br/>
+        2·6호선 합정역 2번출구 도보 3분
+      </div>
+    `
+  });
+  naver.maps.Event.addListener(marker, 'click', () => {
+    if (info.getMap()) info.close();
+    else info.open(map, marker);
+  });
+});
 
 // 스크롤 애니메이션 관찰자
 const observerOptions = {
