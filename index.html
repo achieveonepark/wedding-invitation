@@ -8,7 +8,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="박성일 ♥ 김채린 결혼합니다" />
-  <meta property="og:description" content="2025년 11월 15일 토요일 오후 2시 | 서울 웨딩홀 3층 그랜드볼룸" />
+  <meta property="og:description" content="2026년 02월 08일 일요일 오후 12시 20분 | 웨딩 시그니처 2층 트리니티홀" />
   <meta property="og:image" content="https://example.com/wedding-photo.jpg" />
   <meta property="og:url" content="https://example.com/wedding" />
   <meta property="og:site_name" content="모바일 청첩장" />
@@ -130,18 +130,12 @@
 
     <div class="section fade-in">
       <div class="section-title">오시는 길</div>
-      <div style="width: 100%; height: 300px; border-radius: 10px; overflow: hidden;">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.8945678901234!2d126.9125!3d37.5489!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c98d31fb7d7c7%3A0x7c0e7f5e6c8a9b0a!2z7ISc7Jq47Yq567OE7IucIOuniO2PrOq1rCDslpHtmZTroZwgODc!5e0!3m2!1sko!2skr!4v1234567890123!5m2!1sko!2skr"
-          width="100%"
-          height="100%"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
+
+      <!-- 네이버 지도 컨테이너 -->
+      <div id="naver-map" style="width: 100%; height: 300px; border-radius: 10px; overflow: hidden;"></div>
+
       <div style="text-align: center; margin-top: 15px;">
+        <!-- 네이버 지도/네비로 바로 여는 외부 링크 버튼(선택) -->
         <a href="https://naver.me/xDqyLGLz" target="_blank" class="btn" style="padding: 12px 30px; text-decoration: none; display: inline-block;">📍 네이버 지도</a>
         <a href="https://map.kakao.com/link/map/웨딩시그니처,37.5489,126.9125" target="_blank" class="btn" style="padding: 12px 30px; margin-left: 10px; text-decoration: none; display: inline-block;">🚗 카카오 내비</a>
       </div>
@@ -166,6 +160,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID"></script>
   <script src="./script.js"></script>
 </body>
 </html>
