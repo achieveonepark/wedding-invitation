@@ -21,10 +21,10 @@ body {
   box-shadow: 0 0 30px rgba(0,0,0,.1);
 }
 
-.header{
-  padding-top: 360px;         /* .cover 높이와 동일하게 설정 */
+.header {
   text-align: center;
-  background: #fafafa;        /* 헤더 배경은 자유 */
+  padding: 60px 20px 40px;
+  background: linear-gradient(to bottom, #fff, #fafafa);
 }
 
 .header h1 {
@@ -259,15 +259,6 @@ body {
   /* 필요하면 5초 후 사라지게 */
   animation: coverFadeOut 1s ease-out 5s forwards;
 }
-
-.cover::before{
-  content:'';
-  position:absolute; inset:0;
-  background: rgba(0,0,0,.35);
-  z-index: 0;
-}
-
-.cover-content{ position:relative; z-index:1; color:#fff; text-align:center; }
 
 @keyframes coverFadeOut {
   to {
