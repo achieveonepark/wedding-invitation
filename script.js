@@ -3,8 +3,8 @@ let snowInterval;
 
 // ===== Naver Map Init =====
 document.addEventListener('DOMContentLoaded', () => {
-  // 지도의 중심 좌표
-  const position = new naver.maps.LatLng(37.5489, 126.9125);
+  // 웨딩시그니처(서울 마포구 양화로 87)의 실제 좌표
+  const position = new naver.maps.LatLng(37.548644, 126.913945);
 
   // 지도 생성
   const map = new naver.maps.Map('naver-map', {
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     content: `
       <div style="padding:8px 12px; font-size:13px;">
         <strong>웨딩시그니처</strong><br/>
-        서울시 마포구 양화로 87<br/>
-        2·6호선 합정역 2번출구 도보 3분
+        서울특별시 마포구 양화로 87<br/>
+        (2·6호선 합정역 2번 출구 도보 3분)
       </div>
     `
   });

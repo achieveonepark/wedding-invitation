@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Noto Serif KR', serif;
+  font-family: 'MyWeddingFont', serif;
   background: linear-gradient(135deg, #fdfbfb 0%, #f8f5f2 100%);
   color: #5a5a5a;
   line-height: 1.6;
@@ -215,6 +215,14 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   pointer-events: none;
+}
+
+@font-face {
+  font-family: 'MyWeddingFont';              /* 내가 붙일 폰트 이름 */
+  src: url('./fonts/Eulyoo1945-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @keyframes snowfall {
