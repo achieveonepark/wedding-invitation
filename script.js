@@ -2,63 +2,41 @@
 let snowInterval;
 
 // ===== Naver Map Init =====
-// ===== NAVER MAP: address geocoding + click-to-adjust =====
 document.addEventListener('DOMContentLoaded', () => {
-  const address = '서울특별시 마포구 양화로 87'; // 웨딩시그니처 도로명 주소
+  // 웨딩시그니처(서울 마포구 양화로 87)의 실제 좌표
+  const position = new naver.maps.LatLng(37.5526889, 126.9173249);
 
-  // 1) 주소를 좌표로 변환
-  naver.maps.Service.geocode({ query: address }, (status, response) => {
-    if (status !== naver.maps.Service.Status.OK || !response.v2?.addresses?.length) {
-      console.warn('Geocode 실패. 임시 중심으로 표시합니다.');
-      initMap(new naver.maps.LatLng(37.5492, 126.9143)); // 합정역 인근 임시값
-      return;
-    }
-
-    // 첫 번째 결과 사용 (도로명 우선)
-    const a = response.v2.addresses[0];
-    const lat = parseFloat(a.y);
-    const lng = parseFloat(a.x);
-    initMap(new naver.maps.LatLng(lat, lng));
+  // 지도 생성
+  const map = new naver.maps.Map('naver-map', {
+    center: position,
+    zoom: 16,             // 16~17 정도가 예식장 주변 보기 좋아요
+    minZoom: 7,
+    maxZoom: 20,
+    mapDataControl: false // 우측 하단 로고/제어 일부 최소화
   });
 
-  // 2) 지도/마커/인포윈도우 초기화 + 클릭으로 보정 가능
-  function initMap(position) {
-    const map = new naver.maps.Map('naver-map', {
-      center: position,
-      zoom: 17,
-      minZoom: 7,
-      maxZoom: 20,
-      mapDataControl: false,
-      zoomControl: true,
-      zoomControlOptions: { position: naver.maps.Position.RIGHT_CENTER }
-    });
+  // 마커 추가
+  const marker = new naver.maps.Marker({
+    position,
+    map,
+    title: '웨딩시그니처'
+  });
 
-    const marker = new naver.maps.Marker({
-      position,
-      map,
-      title: '웨딩시그니처'
-    });
-
-    const info = new naver.maps.InfoWindow({
-      content: `
-        <div style="padding:8px 12px; font-size:13px; line-height:1.5">
-          <strong>웨딩시그니처</strong><br/>
-          서울 마포구 양화로 87<br/>
-          (2·6호선 합정역 2번 출구 도보 3분)
-        </div>
-      `
-    });
-    info.open(map, marker);
-
-    // 지도 클릭으로 위치 미세 보정 (콘솔에 좌표 표시)
-    naver.maps.Event.addListener(map, 'click', (e) => {
-      marker.setPosition(e.coord);
-      info.open(map, marker);
-      console.log('조정 좌표:', e.coord.lat(), e.coord.lng());
-    });
-  }
+  // 인포윈도우(선택)
+  const info = new naver.maps.InfoWindow({
+    content: `
+      <div style="padding:8px 12px; font-size:13px;">
+        <strong>웨딩시그니처</strong><br/>
+        서울특별시 마포구 양화로 87<br/>
+        (2·6호선 합정역 2번 출구 도보 3분)
+      </div>
+    `
+  });
+  naver.maps.Event.addListener(marker, 'click', () => {
+    if (info.getMap()) info.close();
+    else info.open(map, marker);
+  });
 });
-
 
 // 스크롤 애니메이션 관찰자
 const observerOptions = {
