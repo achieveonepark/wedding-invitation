@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+:root{
+  --card-max: 480px;
+  --cover-delay: 3s;     /* 보여줄 시간 */
+  --cover-dur:   1s;     /* 페이드아웃 시간 */
+}
+
 body {
   font-family: 'MyWeddingFont', serif;
   background: linear-gradient(135deg, #fdfbfb 0%, #f8f5f2 100%);
@@ -13,7 +19,8 @@ body {
 
 .container{
   position: relative;
-  max-width: 480px;
+  max-width: var(--card-max);
+  /*max-width: 480px;*/
   margin: 0 auto;
   background: #fff;
   border-radius: 16px;        /* 둥근 모서리 */
@@ -233,19 +240,6 @@ body {
   font-size: 24px;
 }
 
-/* 눈 내리는 효과 */
-.snowflake {
-  position: fixed;
-  top: -10px;
-  z-index: 9999;
-  user-select: none;
-  cursor: default;
-  animation-name: snowfall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  pointer-events: none;
-}
-
 @font-face {
   font-family: 'MyWeddingFont';              /* 내가 붙일 폰트 이름 */
   src: url('./fonts/Eulyoo1945-Regular.otf') format('opentype');
@@ -273,26 +267,35 @@ body {
     transform: translateX(30px);
   }
 }
-.cover {
-  position: fixed;              /* 스크롤해도 고정 */
-  top: 0;
-  left: 50%;                    /* 가운데 정렬 */
-  transform: translateX(-50%);  /* 가운데 정렬 보정 */
+
+.cover{
+  position: fixed;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  max-width: 480px;             /* 카드 폭과 동일하게 */
-  height: 100vh;                /* 화면 높이 꽉 */
-  border-radius: 16px;          /* 카드와 동일한 둥근 모서리 */
-  overflow: hidden;             /* 경계 밖은 잘라내기 */
-
-  background: url('./images/cover.jpg') center center / cover no-repeat;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+  max-width: var(--card-max);
+  height: 100svh;
+  border-radius: 16px;
+  overflow: hidden;
+  background: url('./images/cover.jpg') center/cover no-repeat;
+  display: flex; align-items: center; justify-content: center;
   z-index: 9999;
-  animation: coverFadeOut 1s ease-out 5s forwards;
+
+  /* ↓ 애니메이션 딱 한 번만 이 방식으로 지정 (중복 금지) */
+  animation-name: coverFadeOut;
+  animation-duration: var(--cover-dur);
+  animation-delay: var(--cover-delay);
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@supports not (height: 100svh){
+  .cover{ height: 100dvh; }
+}
+
+@keyframes coverFadeOut{
+  from{ opacity: 1; visibility: visible; }
+  to  { opacity: 0; visibility: hidden; }
 }
 
 /* 어두운 오버레이(선택사항: 텍스트 대비용) */
@@ -313,16 +316,14 @@ body {
 }
 
 /* 커버 사라지는 애니메이션 */
-@keyframes coverFadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+@keyframes coverFadeOut{
+  from{ opacity: 1; visibility: visible; }
+  to  { opacity: 0; visibility: hidden; }
 }
 
 .cover-content {
   text-align: center;
-  animation: coverContentFadeIn 1.5s ease-out;
+  /*animation: coverContentFadeIn 1.5s ease-out;*/
 }
 
 @keyframes coverContentFadeIn {
@@ -366,7 +367,7 @@ body {
 .cover-icon {
   font-size: 80px;
   margin: 20px 0;
-  animation: iconFloat 3s ease-in-out infinite;
+  /*animation: iconFloat 3s ease-in-out infinite;*/
 }
 
 @keyframes iconFloat {
@@ -378,7 +379,17 @@ body {
   }
 }
 
-/* 눈송이가 커버에만 나타나도록 */
-.snowflake.cover-snow {
-  z-index: 10001;
+/* ===== Scroll Lock (커버 표시 중) ===== */
+html.is-cover-open,
+body.is-cover-open {
+  overflow: hidden;           /* 스크롤바 자체를 막음 */
+  height: 100%;               /* iOS에서 필요 */
+  overscroll-behavior: none;  /* 바운스 방지 */
+}
+
+/* 스크롤 위치 고정(점프 방지) */
+body.is-cover-open {
+  position: fixed;            /* 문서 전체를 고정 */
+  inset: 0;                   /* top/right/bottom/left: 0 */
+  width: 100%;
 }

@@ -1,5 +1,22 @@
-// 커버 화면용 눈 내리는 효과 (5초간만)
-let snowInterval;
+document.addEventListener('DOMContentLoaded', () => {
+  const cover = document.getElementById('cover');
+  if (!cover) return;
+
+  // 현재 스크롤 위치 기억 + 잠금
+  let scrollY = window.scrollY || window.pageYOffset;
+  document.documentElement.classList.add('is-cover-open');
+  document.body.classList.add('is-cover-open');
+  document.body.style.top = `-${scrollY}px`; // 고정된 상태에서 위치 유지
+
+  // 커버 애니메이션이 끝나면 잠금 해제 + 복원
+  cover.addEventListener('animationend', () => {
+    document.documentElement.classList.remove('is-cover-open');
+    document.body.classList.remove('is-cover-open');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);  // 원래 위치로 복귀
+    cover.remove();               // 커버 제거(선택)
+  });
+});
 
 // ===== Naver Map Init =====
 document.addEventListener('DOMContentLoaded', () => {
