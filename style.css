@@ -249,12 +249,12 @@ body {
 
 /* 커버 화면 */
 .cover {
-  position: absolute; /* 전체 fixed → container 내부에서만 위치하도록 변경 */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 480px; /* 원하는 영역 높이 (ex: 헤더와 같은 비율) */
-  border-radius: 0 0 20px 20px; /* 살짝 카드 느낌을 유지하고 싶다면 */
+  height: 100%;
+  border-radius: 0 0 20px 20px;
 
   background: url('./images/cover.jpg') center center / cover no-repeat;
   display: flex;
@@ -262,7 +262,6 @@ body {
   align-items: center;
   justify-content: center;
   animation: coverFadeOut 1s ease-out 5s forwards;
-  /* 애니메이션 제거 (느리게 뜨는 원인) */
   opacity: 1;
   visibility: visible;
   transition: none;
