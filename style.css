@@ -10,6 +10,25 @@
   --cover-dur:   1s;     /* 페이드아웃 시간 */
 }
 
+.bgm-btn{
+  position: fixed;
+  top: 12px;
+  left: 12px;              /* 화면 좌측 상단 고정 */
+  z-index: 10002;          /* cover(9999)보다 위 */
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 18px;
+  border: 1px solid #e74c3c;
+  background: #fff;
+  color: #c94444;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  transition: transform .15s ease, background .2s ease, color .2s ease;
+}
+
+.bgm-btn:hover{ transform: translateY(-1px); background:#e74c3c; color:#fff; }
+.bgm-btn.is-playing{ background:#e74c3c; color:#fff; }
+
 body {
   font-family: 'MyWeddingFont', serif;
   background: linear-gradient(135deg, #fdfbfb 0%, #f8f5f2 100%);
