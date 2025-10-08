@@ -1,3 +1,84 @@
+(() => {
+  const audio = document.getElementById('weddingBgm');
+  const btn   = document.getElementById('bgmToggle');
+  const icon  = document.getElementById('bgmIcon');
+  const label = document.getElementById('bgmLabel');
+
+  const saved = localStorage.getItem('wedding_bgm') ?? 'on';
+  let isOn = saved === 'on';
+
+  audio.volume = 0;
+  audio.muted = true;
+  audio.play().catch(() => {});
+
+  function updateUI() {
+    if (isOn) {
+      icon.textContent = '🔊';
+      // label.textContent = 'BGM ON';
+      btn.setAttribute('aria-pressed', 'true');
+      btn.setAttribute('aria-label', '배경음악 끄기');
+    } else {
+      icon.textContent = '🔇';
+      // label.textContent = 'BGM OFF';
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', '배경음악 켜기');
+    }
+  }
+
+  function fadeVolume(target, duration = 700) {
+    const start = audio.volume;
+    const delta = target - start;
+    const t0 = performance.now();
+    function step(t) {
+      const k = Math.min(1, (t - t0) / duration);
+      audio.volume = start + delta * k;
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  async function turnOn() {
+    try {
+      audio.muted = false;
+      if (audio.paused) await audio.play();
+      fadeVolume(0.6);
+      isOn = true;
+      localStorage.setItem('wedding_bgm', 'on');
+      updateUI();
+    } catch (e) {
+      console.debug('Autoplay blocked until further interaction:', e);
+    }
+  }
+
+  function turnOff() {
+    fadeVolume(0, 300);
+    setTimeout(() => { audio.pause(); }, 320);
+    isOn = false;
+    localStorage.setItem('wedding_bgm', 'off');
+    updateUI();
+  }
+
+  const unlock = () => {
+    if (isOn) turnOn();
+    document.removeEventListener('click', unlock);
+    document.removeEventListener('touchstart', unlock, {passive:true});
+  };
+  document.addEventListener('click', unlock);
+  document.addEventListener('touchstart', unlock, {passive:true});
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isOn) {
+      turnOff();
+    } else {
+      turnOn();
+    }
+  });
+
+  updateUI();
+})();
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const cover = document.getElementById('cover');
   if (!cover) return;
