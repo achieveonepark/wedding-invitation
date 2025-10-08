@@ -143,30 +143,22 @@
           TMap
         </a>
       </div>
-      <div class="transport-box">
-        <div class="transport-item">
-          <div class="transport-label">🚗 자차 이용</div>
-          <div class="transport-value">
-            네비게이션에 '웨딩시그니처'를 검색하세요.<br>
-            (서울시 마포구 양화로 87)
-          </div>
+      <div class="info-box">
+        <div class="info-item">
+          <div class="info-label">🚗 자차 이용</div>
+          <div class="info-value location-info">네비게이션에 '웨딩시그니처'를 검색하세요. </div>
         </div>
-        <div class="transport-item">
-          <div class="transport-label">🚇 대중교통 이용</div>
-          <div class="transport-value">
-            2호선/6호선 합정역 2번 출구에서 도보 3분 거리에 위치해 있습니다.
-          </div>
+        <div class="info-item">
+          <div class="info-label">🚇 대중교통 이용</div>
+          <div class="info-value location-info">2호선/6호선 합정역 2번 출구에서 도보 3분 거리에 위치해 있습니다.</div>
         </div>
-        <div class="transport-item">
-          <div class="transport-label">🅿️ 주차 안내</div>
-          <div class="transport-value parking-info">
-제1주차장: 본 건물
+        <div class="info-item">
+          <div class="info-label">🅿️ 주차 안내</div>
+          <div class="info-value location-info">제1주차장: 본 건물
 제2주차장: H스퀘어
 제3주차장: 서교빌딩 주차장
             
-* 내방하시는 차량은 [건물 정문]에서 주차 안내를 받으시기 바랍니다.
-당일 모든 주차는 주차요원의 안내를 받으세요.
-          </div>
+* 내방하시는 차량은 [건물 정문]에서 주차 안내를 받으시기 바랍니다.</div>
         </div>
       </div>
 
@@ -205,57 +197,123 @@
     </div>
   </div>
 
-  <!-- Contact Modal -->
   <div id="contact-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button">&times;</span>
-      <h2>연락하기</h2>
-      <div class="contact-modal-body">
-        <div class="contact">
-          <div class="contact-item">
-            <div class="contact-name">신랑 박성일</div>
-            <div class="contact-buttons">
-              <a class="btn" href="tel:+821096060759">📞 전화</a>
-              <a class="btn" href="sms:+821096060759">💬 문자</a>
-            </div>
-          </div>
-        </div>
-        <div class="contact">
-          <div class="contact-item">
-            <div class="contact-name">신부 김채린</div>
-            <div class="contact-buttons">
-              <a class="btn" href="tel:+821096060759">📞 전화</a>
-              <a class="btn" href="sms:+821096060759">💬 문자</a>
-            </div>
-          </div>
-        </div>
-        <div class="contact">
-          <div class="contact-item">
-            <div class="contact-name">신랑측 아버지 박민봉</div>
-            <div class="contact-buttons">
-              <a class="btn" href="tel:+821012345678">📞 전화</a>
-            </div>
-          </div>
-        </div>
-        <div class="contact">
-          <div class="contact-item">
-            <div class="contact-name">신랑측 어머니 김경순</div>
-            <div class="contact-buttons">
-              <a class="btn" href="tel:+821012345678">📞 전화</a>
-            </div>
-          </div>
-        </div>
-        <div class="contact">
-          <div class="contact-item">
-            <div class="contact-name">신부측 아버지 김정수</div>
-            <div class="contact-buttons">
-              <a class="btn" href="tel:+821012345678">📞 전화</a>
-            </div>
-          </div>
-        </div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      <button class="close-button" aria-label="닫기">&times;</button>
+      <h2 id="contact-modal-title" class="contact-title">연락하기</h2>
+      <p class="contact-subtitle">축하의 마음을 전해보세요</p>
+
+      <!-- 탭 헤더 -->
+      <div class="tabs" role="tablist" aria-label="연락처 분류">
+        <button id="tab-groom"  class="tab" role="tab" aria-selected="true"  aria-controls="panel-groom"  tabindex="0">신랑측</button>
+        <button id="tab-bride"  class="tab" role="tab" aria-selected="false" aria-controls="panel-bride"  tabindex="-1">신부측</button>
       </div>
+
+      <!-- 신랑측 패널 -->
+      <section id="panel-groom" class="tab-panel active" role="tabpanel" aria-labelledby="tab-groom">
+        <div class="accordion">
+          <!-- 신랑 -->
+          <details class="acc-item">
+            <summary class="acc-summary">
+              <span class="acc-person-name">박성일</span>
+              <span class="acc-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="acc-panel">
+              <div class="acc-row">
+                <span class="acc-label">연락처</span>
+                <div class="acc-actions">
+                  <a class="btn btn-call" href="tel:+821012345678">📞 전화</a>
+                  <a class="btn btn-message" href="sms:+821012345678">💬 문자</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- 신랑측 아버지 -->
+          <details class="acc-item">
+            <summary class="acc-summary">
+              <div class="acc-person">
+                <span class="acc-person-name">박민봉</span>
+                <span class="acc-person-role">아버지</span>
+              </div>
+              <span class="acc-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="acc-panel">
+              <div class="acc-row">
+                <span class="acc-label">연락처</span>
+                <div class="acc-actions">
+                  <a class="btn btn-call" href="tel:+821012345678">📞 전화</a>
+                  <a class="btn btn-message" href="sms:+821012345678">💬 문자</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- 신랑측 어머니 -->
+          <details class="acc-item">
+            <summary class="acc-summary">
+              <div class="acc-person">
+                <span class="acc-person-name">김경순</span>
+                <span class="acc-person-role">어머니</span>
+              </div>
+              <span class="acc-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="acc-panel">
+              <div class="acc-row">
+                <span class="acc-label">연락처</span>
+                <div class="acc-actions">
+                  <a class="btn btn-call" href="tel:+821012345678">📞 전화</a>
+                  <a class="btn btn-message" href="sms:+821012345678">💬 문자</a>
+                </div>
+              </div>
+            </div>
+          </details>
+      </section>
+
+      <!-- 신부측 패널 -->
+      <section id="panel-bride" class="tab-panel" role="tabpanel" aria-labelledby="tab-bride" hidden>
+        <div class="accordion">
+          <!-- 신부 -->
+          <details class="acc-item">
+            <summary class="acc-summary">
+              <span class="acc-person-name">김채린</span>
+              <span class="acc-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="acc-panel">
+              <div class="acc-row">
+                <span class="acc-label">연락처</span>
+                <div class="acc-actions">
+                  <a class="btn btn-call" href="tel:+821012345678">📞 전화</a>
+                  <a class="btn btn-message" href="sms:+821012345678">💬 문자</a>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- 신부측 아버지 -->
+          <details class="acc-item">
+            <summary class="acc-summary">
+              <div class="acc-person">
+                <span class="acc-person-name">김정수</span>
+                <span class="acc-person-role">아버지</span>
+              </div>
+              <span class="acc-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="acc-panel">
+              <div class="acc-row">
+                <span class="acc-label">연락처</span>
+                <div class="acc-actions">
+                  <a class="btn btn-call" href="tel:+821012345678">📞 전화</a>
+                  <a class="btn btn-message" href="sms:+821012345678">💬 문자</a>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
     </div>
   </div>
+
 
   <!-- Scripts -->
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=l98oypotsw"></script>
