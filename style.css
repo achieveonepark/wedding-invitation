@@ -125,7 +125,7 @@ body {
 /* ===================================================================
    Sections & Common Blocks
    =================================================================== */
-.section { padding: 40px 30px; border-top: 1px solid #f0f0f0; }
+.section { padding: 40px 30px; border-top: 1px solid #5ba9ed; }
 .section-title {
   text-align: center;
   font-size: 36px;
@@ -284,7 +284,7 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 .parents-info > span,
 .parents-info > strong {  margin: 0 4px; /* 요소 사이 여백 */}
 .parent-name {  font-weight: 500; }
-.dot {  color: #ccc;  font-weight: 200; }
+.dot {  color: #000000;  font-weight: 200; }
 .child-relation {  font-size: 15px;  margin-left: 10px; /* 관계 앞 여백 */  color: #6a6a6a; }
 .child-name {  font-weight: 700;  font-size: 18px; } 
 /* ===================================================================
