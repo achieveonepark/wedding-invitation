@@ -430,3 +430,318 @@ body.is-cover-open {
   inset: 0;                   /* top/right/bottom/left: 0 */
   width: 100%;
 }
+
+.transport-box {
+  background: #fafafa;
+  padding: 25px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.transport-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.transport-item:last-child {
+  border-bottom: none;
+}
+
+.transport-label {
+  font-weight: 500;
+  color: #0066ff;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.transport-value {
+  color: #5a5a5a;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.calendar {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.calendar-header {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.calendar-month {
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  margin-left: 10px;
+}
+
+.calendar-year {
+  font-size: 16px;
+  color: #777;
+}
+
+.location {
+  font-size: 16px;
+  color: #777;
+  text-align: center;
+}
+
+.location-sub {
+  font-size: 14px;
+  color: #999999;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day-name, .day {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.day-name {
+  font-weight: 500;
+  color: #0066ff;
+}
+
+.day {
+  color: #555;
+}
+
+.wedding-day {
+  position: relative; /* 자식 요소를 position: absolute로 제어하기 위함 */
+  color: #555; /* 숫자 8 색상 */
+}
+
+.wedding-day-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* 원형으로 나타나는 효과 (호환성 높은 방식) */
+  /* 아래쪽 중앙에서 0% 크기의 원으로 시작 */
+  clip-path: circle(0% at 50% 100%);
+  -webkit-clip-path: circle(0% at 50% 100%);
+
+  /* 1.5초동안 clip-path를 전체를 덮는 원으로 변경 */
+  animation: reveal-circle 1.5s 0.5s forwards;
+}
+
+@keyframes reveal-circle {
+  to {
+    /* 전체를 덮을 만큼 큰 원으로 확장 */
+    clip-path: circle(142% at 50% 50%);
+    -webkit-clip-path: circle(142% at 50% 50%);
+  }
+}
+
+.map-buttons {
+  text-align: center;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.parking-info {
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+/* ===== Snowfall Effect (Enhanced) ===== */
+.snow-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(200vh); /* 화면의 두 배만큼 이동하여 완전히 사라지도록 함 */
+  }
+}
+
+/* 작은 눈송이 레이어 */
+.snow-container::before {
+  content: '';
+  position: absolute;
+  top: -100vh; /* 화면 위에서 시작 */
+  left: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  /* box-shadow로 50개의 눈송이 생성 */
+  box-shadow: 185px 186px #fff, 213px 133px #fff, 103px 10px #fff, 333px 352px #fff, 41px 493px #fff, 344px 23px #fff, 156px 452px #fff, 183px 33px #fff, 32px 259px #fff, 45px 138px #fff, 332px 18px #fff, 12px 309px #fff, 25px 499px #fff, 125px 233px #fff, 229px 430px #fff, 342px 329px #fff, 435px 180px #fff, 234px 369px #fff, 335px 471px #fff, 442px 23px #fff, 12px 12px #fff, 42px 322px #fff, 172px 432px #fff, 252px 200px #fff, 312px 122px #fff, 432px 433px #fff, 192px 4px #fff, 82px 183px #fff, 152px 333px #fff, 282px 144px #fff, 352px 44px #fff, 412px 300px #fff, 62px 222px #fff, 132px 42px #fff, 262px 332px #fff, 382px 212px #fff, 482px 492px #fff, 22px 52px #fff, 92px 272px #fff, 142px 482px #fff, 292px 312px #fff, 362px 102px #fff, 452px 242px #fff, 2px 412px #fff, 112px 12px #fff, 242px 222px #fff, 372px 422px #fff, 492px 342px #fff, 322px 42px #fff;
+  animation: snowfall 25s linear infinite;
+}
+
+/* 중간 크기 눈송이 레이어 */
+.snow-container::after {
+  content: '';
+  position: absolute;
+  top: -100vh; /* 화면 위에서 시작 */
+  left: 0;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  /* box-shadow로 50개의 눈송이 생성 */
+  box-shadow: 383px 33px #fff, 21px 437px #fff, 159px 403px #fff, 39px 29px #fff, 439px 229px #fff, 133px 179px #fff, 339px 339px #fff, 239px 439px #fff, 49px 159px #fff, 199px 259px #fff, 349px 459px #fff, 49px 109px #fff, 199px 209px #fff, 349px 409px #fff, 499px 119px #fff, 99px 219px #fff, 249px 419px #fff, 399px 129px #fff, 449px 329px #fff, 99px 439px #fff, 29px 149px #fff, 299px 349px #fff, 449px 49px #fff, 99px 159px #fff, 149px 359px #fff, 299px 59px #fff, 399px 259px #fff, 499px 459px #fff, 89px 109px #fff, 189px 309px #fff, 289px 209px #fff, 389px 409px #fff, 489px 119px #fff, 79px 219px #fff, 179px 419px #fff, 279px 129px #fff, 379px 329px #fff, 479px 439px #fff, 19px 49px #fff, 219px 249px #fff, 419px 449px #fff, 19px 199px #fff, 219px 399px #fff, 419px 99px #fff, 119px 299px #fff, 319px 499px #fff, 419px 199px #fff, 119px 499px #fff;
+  animation: snowfall 15s linear infinite;
+}
+
+/* 커버 화면 눈송이 애니메이션 즉시 시작 처리 */
+.snow-container--cover::before {
+  animation-delay: -15s; /* 애니메이션 중간부터 바로 시작 */
+}
+
+.snow-container--cover::after {
+  animation-delay: -10s; /* 애니메이션 중간부터 바로 시작 */
+}
+
+/* ===== Contact Modal ===== */
+.contact-trigger {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.modal {
+  display: none; /* 기본적으로 숨김 */
+  position: fixed;
+  z-index: 10003; /* BGM 버튼보다 위에 오도록 설정 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6); /* 반투명 검은 배경 */
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 30% auto;
+  padding: 25px;
+  border-radius: 12px;
+  width: 85%;
+  max-width: 400px;
+  position: relative;
+  animation: slide-down 0.4s ease-out;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  text-align: center;
+  font-size: 18px;
+  color: #0066ff;
+  margin-bottom: 20px;
+}
+
+.contact-modal-body .contact {
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.contact-modal-body .contact-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* ===== Parents Section ===== */
+.parents-section {
+  text-align: center;
+  font-size: 16px;
+  color: #5a5a5a;
+}
+
+.parents-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.parents-info > span,
+.parents-info > strong {
+  margin: 0 4px; /* 요소 사이의 좌우 여백 */
+}
+
+.parent-name {
+  font-weight: 500;
+}
+
+.dot {
+  color: #ccc;
+  font-weight: 200;
+}
+
+.child-relation {
+  font-size: 15px;
+  margin-left: 10px; /* 관계 앞 여백 */
+  color: #6a6a6a;
+}
+
+.child-name {
+  font-weight: 700;
+  font-size: 18px;
+}
