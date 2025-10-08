@@ -10,24 +10,42 @@
   --cover-dur:   1s;     /* 페이드아웃 시간 */
 }
 
-.bgm-btn{
+/* ===== BGM 버튼: 카드 경계 안쪽에 고정 ===== */
+.bgm-btn {
   position: fixed;
   top: 12px;
-  left: 12px;              /* 화면 좌측 상단 고정 */
-  z-index: 10002;          /* cover(9999)보다 위 */
+
+  /* (뷰포트폭 - 카드폭)/2 = 카드의 좌측 여백 */
+  /* 그 여백 + 12px(내부 마진) 위치에 버튼 배치 */
+  left: calc(
+          (100vw - min(100vw, var(--card-max))) / 2
+          + max(12px, env(safe-area-inset-left)) /* 노치/안전영역 대응 */
+  );
+
+  z-index: 10002;
   padding: 8px 12px;
   font-size: 13px;
   border-radius: 18px;
-  border: 1px solid #99ccff;
+  border: 1px solid #e74c3c;
   background: #fff;
-  color: #0066ff;
+  color: #c94444;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(0,0,0,.08);
   transition: transform .15s ease, background .2s ease, color .2s ease;
 }
 
-.bgm-btn:hover{ transform: translateY(-1px); background:#99ccff; color:#fff; }
-.bgm-btn.is-playing{ background:#99ccff; color:#fff; }
+/* hover 시 X축 이동은 제거하고 Y축만 살짝 띄우기 */
+.bgm-btn:hover {
+  transform: translateY(-1px);
+  background:#e74c3c;
+  color:#fff;
+}
+
+/* 재생 중 스타일 유지 */
+.bgm-btn.is-playing {
+  background:#e74c3c;
+  color:#fff;
+}
 
 body {
   font-family: 'MyWeddingFont', serif;

@@ -2,7 +2,6 @@
 <html lang="ko">
 <head>
   <link rel="preload" as="image" href="./images/cover.jpg" imagesrcset="./images/cover.jpg" />
-  <audio id="weddingBgm" src="musics/bgm.mp3" autoplay muted loop preload="auto"></audio>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>박성일 ♥ 김채린 결혼식에 초대합니다</title>
@@ -25,30 +24,22 @@
   <!-- Styles -->
   <link rel="stylesheet" href="./style.css" />
 </head>
-<button id="bgmToggle"
-        aria-pressed="false"
-        aria-label="배경음악 켜기"
-        style="
-      position: fixed;
-      top: calc(env(safe-area-inset-top, 0px) + 12px);
-      left: calc(env(safe-area-inset-left, 0px) + 12px);
-      z-index: 9999;
-      padding: 10px 12px;
-      border: none;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      font-size: 14px;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      -webkit-tap-highlight-color: transparent;
-    ">
-  <span id="bgmIcon">🔇</span>
-<!--  <span id="bgmLabel">BGM OFF</span>-->
-</button>
+
 <body>
+  <button id="bgmToggle" class="bgm-btn" aria-label="배경음악 켜기" aria-pressed="false">
+    <span id="bgmIcon">🔊</span>
+<!--    <span id="bgmLabel" class="sr-only">BGM ON</span>-->
+  </button>
+
+  <audio id="weddingBgm"
+         src="musics/bgm.mp3"
+         muted
+         loop
+         preload="auto"
+         playsinline>
+    
+  </audio>
+  
   <!-- 커버 화면 -->
   <div class="container">
     <div class="cover" id="cover">
@@ -177,7 +168,6 @@
 
   <!-- Scripts -->
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=l98oypotsw"></script>
-  <script src="https://w.soundcloud.com/player/api.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>
