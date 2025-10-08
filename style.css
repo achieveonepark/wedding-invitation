@@ -29,6 +29,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'titleFont';
+  src: url('./fonts/Parisienne-Regular.ttf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 body {
   font-family: 'MyWeddingFont', serif;
   background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-1) 50%, var(--sky-1) 100%);
@@ -117,7 +126,14 @@ body {
    Sections & Common Blocks
    =================================================================== */
 .section { padding: 40px 30px; border-top: 1px solid #f0f0f0; }
-.section-title { text-align: center; font-size: 18px; color: #0066ff; margin-bottom: 25px; font-weight: 400; }
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  color: #0066ff;
+  margin-bottom: 25px;
+  font-weight: 400;
+  font-family: 'titleFont', sans-serif; /* ✅ 추가 */
+}
 
 .message { text-align: center; font-size: 15px; line-height: 1.9; color: #6a6a6a; padding: 0 10px; }
 
