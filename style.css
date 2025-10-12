@@ -12,8 +12,8 @@
 
   /* Very light sky palette */
   --sky-0: #ffffff;    /* pure white */
-  --sky-1: #f5fbff;    /* 거의 흰색의 스카이 */
-  --sky-2: #ecf7ff;    /* 아주 연한 하늘색 (카드 배경) */
+  --sky-1: #f5fbff;    /* 거의 흰색의 스카이 */ 
+  --sky-2: #eef5fa;    /* 아주 연한 하늘색 (카드 배경) */
   --sky-3: #96d2f8;    /* hover/포인트 보조 */
   --sky-accent: #2aa7ff; /* 메인 포인트 블루 */
 }
@@ -21,6 +21,13 @@
 /* ===================================================================
    Global Typography & Layout
    =================================================================== */
+@font-face {
+  font-family: 'GowoonDodum';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'MyWeddingFont';
   src: url('./fonts/Eulyoo1945-Regular.otf') format('opentype');
@@ -39,7 +46,7 @@
 
 
 body {
-  font-family: 'MyWeddingFont', serif;
+  font-family: 'GowoonDodum', serif;
   background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-1) 50%, var(--sky-1) 100%);
   color: #5a5a5a;
   line-height: 1.6;
@@ -125,11 +132,11 @@ body {
 /* ===================================================================
    Sections & Common Blocks
    =================================================================== */
-.section { padding: 40px 30px; border-top: 1px solid #5ba9ed; }
+.section { padding: 40px 30px; }
 .section-title {
   text-align: center;
   font-size: 36px;
-  color: #0066ff;
+  color: #4f7ec8;
   margin-bottom: 25px;
   font-weight: 400;
   font-family: 'titleFont', sans-serif; /* ✅ 추가 */
@@ -156,9 +163,17 @@ body {
 .info-label {
   font-weight: 600;
   font-size: 16px;
-  color: #0066ff;
+  color: #4f7ec8;
   margin-bottom: 8px;
   display: block; /* 줄바꿈 강제 */
+}
+
+.info-icon {
+  width: 20px;            /* 🔹 아이콘 크기 줄이기 */
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle; /* 세로 정렬 자연스럽게 */
+  opacity: 0.9;           /* 살짝 부드럽게 */
 }
 
 .info-value {
@@ -168,6 +183,34 @@ body {
   padding-left: 4px;
   white-space: pre-line; /* 개행(\n) 유지 */
 }
+
+.subline {
+  display: flex;
+  align-items: center;
+  gap: 10px;                 /* 텍스트–선 간격 */
+  margin: 18px 0 10px;       /* 위아래 여백 */
+}
+
+.subline-title {
+  font: 500 15px/1.2 'GowoonDodum', serif; /* 필요시 14~16px 조절 */
+  color: #2b3a4a;
+  letter-spacing: 0.5px;
+}
+
+.subline::after {
+  content: "";
+  flex: 1 1 auto;           /* 남은 폭 채움 */
+  height: 1px;
+  background: linear-gradient(
+          90deg,
+          var(--sky-3) 0%,
+          var(--sky-accent) 100%
+  );
+  opacity: .6;              /* 너무 진하면 .45~.7 사이로 */
+  transform: translateY(0.5px); /* 라인 시각적 중앙 보정 */
+  border-radius: 1px;
+}
+
 
 /* ===== 세련된 Parking Info 스타일 ===== */
 .location-info {
@@ -263,7 +306,7 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 .location-sub { font-size: 14px; color: #999; text-align: center; }
 .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
 .day-name, .day { padding: 8px; font-size: 14px; }
-.day-name { font-weight: 500; color: #0066ff; }
+.day-name { font-weight: 500; color: #4f7ec8; }
 .day { color: #555; }
 .wedding-day { position: relative; color: #555; }
 .wedding-day-icon {
