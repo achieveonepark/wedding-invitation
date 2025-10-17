@@ -114,6 +114,16 @@
           <div class="day">28</div>
         </div>
       </div>
+
+      <!-- D-Day 표기 -->
+      <p id="dDay" class="d-day" aria-live="polite">
+        <span class="dday-label">성일 ❤️ 채린 결혼식까지 </span>
+        <span class="dday-days" aria-label="남은 일수">000</span>
+        <span class="dday-sep">일</span>
+        <span class="dday-time">
+    <span class="dday-hh" aria-label="시간">00</span>시간 <span class="dday-mm" aria-label="분">00</span>분 <span class="dday-ss" aria-label="초">00</span>초 남았어요!
+  </span>
+      </p>
     </div>
 
     <div class="section fade-in">
@@ -135,35 +145,36 @@
           <img src="images/tmap.svg" alt="TMap" class="btn-icon">
           TMap
         </a>
+        <a href="https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=%2C%2C480353%2C1124968&rt1=&rt2=%EC%9B%A8%EB%94%A9+%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98+%ED%8A%B8%EB%A6%AC%EB%8B%88%ED%8B%B0%ED%99%80&rtIds=%2C&rtTypes=%2C" target="_blank" class="btn map-btn">
+          <img src="images/kakao_map.png" alt="Kakao Map" class="btn-icon">
+          Kakao Map
+        </a>
       </div>
       <div class="subline"></div>
       <div class="info-box">
         <div class="info-item">
           <div class="info-label">
-            <img src="images/car.png" alt="car" class="info-icon">
-          자차 이용
-          </div>
+            <img src="images/car.png" alt="car" class="info-icon"> 자차 이용</div>
           <div class="info-value">네비게이션에 '웨딩시그니처'를 검색하세요. 
             서울특별시 마포구 양화로 87</div>
         </div>
         <div class="subline"></div>
         <div class="info-item">
           <div class="info-label">
-            <img src="images/tram.png" alt="tram" class="info-icon">
-            대중교통 이용</div>
+            <img src="images/tram.png" alt="tram" class="info-icon"> 대중교통 이용</div>
           <div class="info-value"><span class="line2">2호선(합정역)</span> / <span class="line6">6호선(합정역)</span> 
-            2번 출구에서 도보 3분 거리에 위치해 있습니다.
-          </div>
+            2번 출구에서 도보 3분 거리에 위치해 있습니다.</div>
         <div class="subline"></div>
         <div class="info-item">
           <div class="info-label">
-            <img src="images/parking-sign.png" alt="parking" class="info-icon">
-            주차 안내</div>
+            <img src="images/parking-sign.png" alt="parking" class="info-icon"> 주차 안내</div>
           <div class="info-value">제1주차장: 본 건물
 제2주차장: H스퀘어
 제3주차장: 서교빌딩 주차장
             
-* 내방하시는 차량은 [건물 정문]에서 주차 안내를 받으시기 바랍니다.</div>
+* 내방하시는 차량은 [건물 정문]에서 주차 안내를 받으시기 바랍니다.
+          
+          </div>
         </div>
         <div class="subline"></div>
       </div>
@@ -189,19 +200,22 @@
       </div>
       
     </div>
-    
-    <div class="section fade-in">
-      <div class="divider">❖</div>
-      <div class="section-title">Gallary</div>
-      <div class="gallery">
-        <div class="gallery-item">📷</div>
-        <div class="gallery-item">💑</div>
-        <div class="gallery-item">💐</div>
-        <div class="gallery-item">🌸</div>
-        <div class="gallery-item">💕</div>
-        <div class="gallery-item">🎊</div>
+
+      <div class="section fade-in">
+        <div class="divider">❖</div>
+        <div class="section-title">Gallery</div>
+
+        <!-- ✅ 갤러리 래퍼: data-initial / data-max 으로 개수 제어 -->
+        <div id="galleryWrap" class="gallery-wrap" data-initial="9" data-max="18">
+          <div id="galleryGrid" class="gallery"></div>
+
+          <!-- ✅ 더보기/접기 버튼 -->
+          <button id="galleryMore" class="btn gallery-more" type="button" aria-expanded="false">
+            더보기
+          </button>
+        </div>
       </div>
-    </div>
+
   </div>
 
   <div id="contact-modal" class="modal">

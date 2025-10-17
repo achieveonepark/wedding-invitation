@@ -357,14 +357,215 @@
   if (info.getMap()) info.close(); else info.open(map, marker);
 });
 }
+  
+// ===== Wedding D-Day (1초 단위) =====
+    (() => {
+      const elRoot = document.getElementById('dDay');
+      if (!elRoot) return;
 
+      const elDays = elRoot.querySelector('.dday-days');
+      const elHH   = elRoot.querySelector('.dday-hh');
+      const elMM   = elRoot.querySelector('.dday-mm');
+      const elSS   = elRoot.querySelector('.dday-ss');
+      const label  = elRoot.querySelector('.dday-label');
+      const sep    = elRoot.querySelector('.dday-sep');
+      const time   = elRoot.querySelector('.dday-time');
+
+      // 결혼식 정확 시간 (한국 표준시)
+      const target = new Date('2026-02-08T12:20:00+09:00');
+
+      const SECOND = 1000;
+      const MINUTE = 60 * SECOND;
+      const HOUR   = 60 * MINUTE;
+      const DAY    = 24 * HOUR;
+
+      const pad2 = (n) => (n < 10 ? '0' + n : '' + n);
+
+      function render(diffMs) {
+        // 남은 시간 → 음수면 이미 시작/지남
+        if (diffMs <= 0) {
+          // 시작~끝 구간이 필요하면 여기서 “진행중” 로직도 가능
+          label.textContent = 'D+';
+          const passed = Math.abs(diffMs);
+
+          const days = Math.floor(passed / DAY);
+          const rem  = passed % DAY;
+          const hh   = Math.floor(rem / HOUR);
+          const mm   = Math.floor((rem % HOUR) / MINUTE);
+          const ss   = Math.floor((rem % MINUTE) / SECOND);
+
+          elDays.textContent = String(days).padStart(3, '0');
+          elHH.textContent   = pad2(hh);
+          elMM.textContent   = pad2(mm);
+          elSS.textContent   = pad2(ss);
+          sep.textContent    = '일 지난 지';
+          time.setAttribute('aria-label', '지나간 시간');
+          return;
+        }
+
+        // D-카운트
+        label.textContent = '성일 ❤️ 채린 결혼식까지 ';
+
+        const days = Math.floor(diffMs / DAY);
+        const rem  = diffMs % DAY;
+        const hh   = Math.floor(rem / HOUR);
+        const mm   = Math.floor((rem % HOUR) / MINUTE);
+        const ss   = Math.floor((rem % MINUTE) / SECOND);
+
+        elDays.textContent = String(days).padStart(3, '0'); // 3자리 고정
+        elHH.textContent   = pad2(hh);
+        elMM.textContent   = pad2(mm);
+        elSS.textContent   = pad2(ss);
+        sep.textContent    = '일';
+        time.setAttribute('aria-label', '남은 시간');
+      }
+
+      function tick() {
+        const now = new Date();
+        const diff = target - now;
+        render(diff);
+
+        // 다음 '정확한 초 경계'에 맞춰 호출 (드리프트 최소화)
+        const ms = now.getMilliseconds();
+        const wait = 1000 - ms;
+        setTimeout(tick, wait);
+      }
+
+      // 첫 렌더링 후 시작
+      tick();
+    })();
+  
   // 페이드인
   const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
-  const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-  if (entry.isIntersecting) entry.target.classList.add('visible');
-  else entry.target.classList.remove('visible');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible'); // 보이게 만들고
+          obs.unobserve(entry.target);           // 관측 해제 → 다시는 숨기지 않음
+        }
+        // else 분기(visible 제거)는 없습니다.
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
-}, observerOptions);
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-});
+
+  /* =========================================================
+  7) Gallery (9개 → 더보기로 확장, 라이트박스 보기)
+  - data-initial / data-max 로 개수 제어
+  - GALLERY_IMAGES 배열만 네 이미지 경로로 채우면 끝
+========================================================= */
+  (() => {
+    const wrap  = document.getElementById('galleryWrap');
+    const grid  = document.getElementById('galleryGrid');
+    const more  = document.getElementById('galleryMore');
+    if (!wrap || !grid || !more) return;
+
+    // ✅ 여기에 실제 썸네일(=원본) 경로를 채워주세요.
+    //    (원본이 너무 크면 1600px 정도로 리사이즈된 파일 권장)
+    const GALLERY_IMAGES = [
+      'images/gallery/01.jpg',
+      'images/gallery/02.jpg',
+      'images/gallery/03.jpg',
+      'images/gallery/04.jpg',
+      'images/gallery/05.jpg',
+      'images/gallery/06.jpg',
+      'images/gallery/07.jpg',
+      'images/gallery/08.jpg',
+      'images/gallery/09.jpg',
+      'images/gallery/10.jpg',
+      'images/gallery/11.jpg',
+      'images/gallery/12.jpg',
+      'images/gallery/13.jpg',
+      'images/gallery/14.jpg',
+      'images/gallery/15.jpg',
+      'images/gallery/16.jpg',
+      'images/gallery/17.jpg',
+      'images/gallery/18.jpg',
+    ];
+
+    // ✅ 초기/최대 개수는 HTML data-* 로 변경 가능 (가변)
+    const INITIAL = parseInt(wrap.dataset.initial || '9', 10);
+    const MAX     = parseInt(wrap.dataset.max || String(GALLERY_IMAGES.length), 10);
+
+    let expanded = false; // 더보기 상태
+
+    function render(limit) {
+      grid.innerHTML = '';
+      const n = Math.min(limit, GALLERY_IMAGES.length);
+      for (let i = 0; i < n; i++) {
+        const src = GALLERY_IMAGES[i];
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.dataset.index = String(i);
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `갤러리 사진 ${i + 1}`;
+        item.appendChild(img);
+
+        grid.appendChild(item);
+      }
+
+      // 버튼 라벨/상태 갱신
+      if (n >= Math.min(MAX, GALLERY_IMAGES.length)) {
+        more.textContent = '접기';
+        more.setAttribute('aria-expanded', 'true');
+        expanded = true;
+      } else {
+        more.textContent = '더보기';
+        more.setAttribute('aria-expanded', 'false');
+        expanded = false;
+      }
+    }
+
+    // 초기 렌더
+    render(INITIAL);
+
+    // 더보기/접기 토글
+    more.addEventListener('click', () => {
+      if (expanded) render(INITIAL);
+      else render(Math.min(MAX, GALLERY_IMAGES.length));
+    });
+
+    /* ============ Lightbox ============ */
+    const lightbox     = document.getElementById('photo-lightbox');
+    const lightboxImg  = lightbox?.querySelector('.lightbox-img');
+    const lightboxClose= lightbox?.querySelector('.lightbox-close');
+
+    function openLightbox(src) {
+      if (!lightbox || !lightboxImg) return;
+      lightboxImg.src = src;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImg) return;
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    // 썸네일 클릭 → 라이트박스
+    grid.addEventListener('click', (e) => {
+      const item = e.target.closest('.gallery-item');
+      if (!item) return;
+      const idx = parseInt(item.dataset.index || '0', 10);
+      const src = GALLERY_IMAGES[idx];
+      openLightbox(src);
+    });
+
+    // 닫기 버튼, 배경 클릭, ESC
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox?.classList.contains('open')) {
+        closeLightbox();
+      }
+    });
+  })();
