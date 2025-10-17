@@ -205,17 +205,37 @@
         <div class="divider">❖</div>
         <div class="section-title">Gallery</div>
 
-        <!-- ✅ 갤러리 래퍼: data-initial / data-max 으로 개수 제어 -->
-        <div id="galleryWrap" class="gallery-wrap" data-initial="9" data-max="18">
-          <div id="galleryGrid" class="gallery"></div>
-
-          <!-- ✅ 더보기/접기 버튼 -->
-          <button id="galleryMore" class="btn gallery-more" type="button" aria-expanded="false">
-            더보기
-          </button>
+        <!-- 항상 보이는 9개 -->
+        <div class="gallery">
+          <!-- 각 썸네일은 자신만의 라이트박스(아이디)로 이동 -->
+          <a class="gallery-item" href="#lb-02"><img src="images/gallary/01.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-02"><img src="images/gallary/02.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-03"><img src="images/gallary/03.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-04"><img src="images/gallary/04.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-05"><img src="images/gallary/05.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-06"><img src="images/gallary/06.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-07"><img src="images/gallary/07.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-08"><img src="images/gallary/08.jpg" alt=""></a>
+          <a class="gallery-item" href="#lb-09"><img src="images/gallary/09.jpg" alt=""></a>
         </div>
-      </div>
 
+        <!-- 더보기: 가변 개수는 여기 안에 썸네일을 추가/삭제하면 됨 -->
+        <details class="gallery-more">
+          <summary class="more-btn">더보기</summary>
+          <div class="gallery gallery--more">
+            <a class="gallery-item" href="#lb-10"><img src="images/gallary/10.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-11"><img src="images/gallary/11.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-12"><img src="images/gallary/12.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-13"><img src="images/gallary/13.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-14"><img src="images/gallary/14.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-15"><img src="images/gallary/15.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-16"><img src="images/gallary/16.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-17"><img src="images/gallary/17.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-18"><img src="images/gallary/18.jpg" alt=""></a>
+            <!-- 필요 시 19, 20… 계속 추가 -->
+          </div>
+        </details>
+      </div>
   </div>
 
   <div id="contact-modal" class="modal">
@@ -339,5 +359,150 @@
   <!-- Scripts -->
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=l98oypotsw"></script>
   <script src="./script.js"></script>
+
+    <!-- Lightbox 01 -->
+    <div id="lb-01" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-18" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-02" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/01.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 02 -->
+    <div id="lb-02" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-01" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-03" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/02.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 03 -->
+    <div id="lb-03" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-02" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-04" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/03.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 04 -->
+    <div id="lb-04" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-03" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-05" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/04.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 05 -->
+    <div id="lb-05" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-04" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-06" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/05.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 06 -->
+    <div id="lb-06" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-05" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-07" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/06.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 07 -->
+    <div id="lb-07" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-06" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-08" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/07.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 08 -->
+    <div id="lb-08" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-07" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-09" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/08.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 09 -->
+    <div id="lb-09" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-08" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-10" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/09.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 10 -->
+    <div id="lb-10" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-09" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-11" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/10.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 11 -->
+    <div id="lb-11" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-10" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-12" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/11.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 12 -->
+    <div id="lb-12" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-11" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-13" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/12.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 13 -->
+    <div id="lb-13" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-12" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-14" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/13.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 14 -->
+    <div id="lb-14" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-13" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-15" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/14.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 15 -->
+    <div id="lb-15" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-14" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-16" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/15.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 16 -->
+    <div id="lb-16" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-15" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-17" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/16.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 17 -->
+    <div id="lb-17" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-16" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-18" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/17.jpg" alt="">
+    </div>
+
+    <!-- Lightbox 18 -->
+    <div id="lb-18" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
+      <a class="lightbox__close" href="#" aria-label="닫기">×</a>
+      <a class="lightbox__nav lightbox__prev" href="#lb-17" aria-label="이전 사진">◀</a>
+      <a class="lightbox__nav lightbox__next" href="#lb-01" aria-label="다음 사진">▶</a>
+      <img class="lightbox__img" src="images/gallary/18.jpg" alt="">
+    </div>
+
 </body>
 </html>

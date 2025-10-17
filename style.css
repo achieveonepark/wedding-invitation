@@ -167,6 +167,115 @@ body {
 
 .message { text-align: center; font-size: 15px; line-height: 1.9; color: #6a6a6a; padding: 0 10px; }
 
+/* 썸네일 이미지 채우기 */
+.gallery-item {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+  background: #eee;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 더보기(summary) 가운데 정렬 */
+.gallery-more {
+  margin-top: 8px;
+  text-align: center;        /* ✅ 가운데 정렬 */
+}
+
+/* 더보기 버튼 눌러서 펼쳐지면 버튼 숨김 */
+.gallery-more[open] > summary.more-btn {
+  display: none;             /* ✅ 펼친 뒤 사라짐 */
+}
+
+.gallery-more > summary.more-btn::-webkit-details-marker { display: none; }
+.gallery--more { margin-top: 10px; }
+
+/* CSS-only Lightbox (iframe) */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10010;
+  padding: 0;                      /* ✅ 여백 제거 */
+}
+.lightbox:target { display: flex; }
+
+/* 프레임을 뷰포트 꽉 채우기 (모바일 대응) */
+.lightbox__frame {
+  width: 100vw;
+  height: 100svh;                  /* ✅ 모바일 주소창 대비 svh */
+  max-width: 100vw;
+  max-height: 100svh;
+  border: 0;
+  background: #000;
+}
+
+/* 라이트박스 레이아웃 살짝 여백 */
+.lightbox {
+  padding: 16px; /* 양옆 여백 조금 */
+}
+
+/* 좌우 네비 화살표 */
+.lightbox__nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10011;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  font-size: 32px;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(0,0,0,.35);
+  border-radius: 999px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.lightbox__prev { left: max(12px, env(safe-area-inset-left)); }
+.lightbox__next { right: max(12px, env(safe-area-inset-right)); }
+.lightbox__nav:active { background: rgba(0,0,0,.5); }
+
+/* 프레임 → 이미지로 변경: 카드 폭(컨테이너)과 화면 세로에 맞게 */
+.lightbox__img {
+  /* 가로: 카드 최대폭(var(--card-max))을 넘지 않되, 화면 좌우 여백(32px) 고려 */
+  width: min(var(--card-max), calc(100vw - 32px));
+  max-width: 100%;
+  height: auto;
+
+  /* 세로: 상단 닫기/네비 여유를 두고 화면 높이 내로 */
+  max-height: calc(100svh - 96px);
+  object-fit: contain;      /* 이미지 비율 유지 */
+  display: block;
+  border-radius: 8px;
+  background: #000;         /* 로딩 시 배경 */
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
+@supports not (height: 100svh) {
+  .lightbox__frame { height: 100vh; max-height: 100vh; } /* 폴백 */
+}
+
+/* 닫기 버튼 (그대로 사용 가능) */
+.lightbox__close {
+  position: fixed;
+  top: 12px; right: 16px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 32px;
+  line-height: 1;
+}
+
+
 /* ===== Info Box (세로형 블록 스타일로 변경) ===== */
 .info-box {
   background: var(--sky-2);
@@ -233,68 +342,6 @@ body {
   transform: translateY(0.5px); /* 라인 시각적 중앙 보정 */
   border-radius: 1px;
 }
-
-/* =========================
-   Gallery (이미지형으로 보정)
-   ========================= */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin: 20px 0;
-}
-.gallery-item {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #f2f6fb;
-  box-shadow: 0 1px 4px rgba(0,0,0,.04);
-  cursor: zoom-in;
-}
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지를 정사각형에 꽉 채움 */
-  display: block;
-  transition: transform .25s ease;
-}
-.gallery-item:hover img { transform: scale(1.03); }
-
-.gallery-wrap { text-align: center; }
-.gallery-more {
-  margin-top: 12px;
-  padding: 10px 18px;
-  border-radius: 999px;
-}
-
-/* =========================
-   Lightbox (큰 사진 보기)
-   ========================= */
-.lightbox {
-  position: fixed; inset: 0;
-  display: none;            /* .open 이면 flex로 */
-  align-items: center; justify-content: center;
-  background: rgba(0,0,0,.75);
-  z-index: 10004;
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-}
-.lightbox.open { display: flex; }
-.lightbox-img {
-  max-width: min(92vw, 1200px);
-  max-height: 85vh;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.4);
-}
-.lightbox-close {
-  position: absolute; top: 14px; right: 18px;
-  background: rgba(0,0,0,.5); color: #fff;
-  border: 0; border-radius: 999px;
-  width: 36px; height: 36px; line-height: 36px;
-  font-size: 22px; cursor: pointer;
-}
-.lightbox-close:hover { background: rgba(0,0,0,.65); }
 
 
 /* ===== 세련된 Parking Info 스타일 ===== */
