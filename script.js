@@ -449,5 +449,61 @@
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
+
+  // ===== 계좌 복사 & 토스트 =====
+  (function(){
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+
+    function showToast(msg){
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast('계좌 정보를 복사했어요.');
+      }catch(e){
+        // clipboard 실패 시 fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try{
+          document.execCommand('copy');
+          showToast('계좌 정보를 복사했어요.');
+        }catch(_){}
+        ta.remove();
+      }
+    }
+
+    // 이벤트 위임
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-copy');
+      if (!btn) return;
+      const str = btn.getAttribute('data-copy');
+      if (str) copyText(str);
+    });
+
+    // 페이지에 새로 추가한 아코디언들도 초기화
+    document.addEventListener('DOMContentLoaded', () => {
+      const acc1 = document.getElementById('acc-groom-side');
+      const acc2 = document.getElementById('acc-bride-side');
+      if (window.Accordion){
+        Accordion.init(acc1);
+        Accordion.init(acc2);
+      }
+    });
+  })();
   
-  
+  // 모든 .accordion을 한 번에 초기화 (페이지 어디에 있어도)
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.Accordion) return;
+    document.querySelectorAll('.accordion').forEach((root) => {
+      Accordion.init(root);
+    });
+  });
