@@ -454,6 +454,8 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 .btn-icon { width: 20px; height: 20px; margin-right: 8px; }
 .parking-info { white-space: pre-wrap; text-align: left; }
 
+.flower-icon { width: 20px; height: 20px; margin-bottom: 2px;}
+
 /* ===== Parents Section (복구) ===== */
 .parents-section {  text-align: center;  font-size: 16px;  color: #5a5a5a; }
 .parents-info {  display: flex;  justify-content: center;  align-items: center;  margin: 12px 0; }
@@ -831,3 +833,123 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 }
 .acc-label { font-size: 13px; color: #6d8dad; }
 .acc-actions { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+
+/* ===== D-Day: 기존 마크업 유지 + 카드형 4칸 ===== */
+#dDay{
+  margin-top: 20px;
+  text-align: center;
+  color: #334e68;
+}
+
+/* 라벨은 한 줄 위에 */
+#dDay .dday-label{
+  display: block;
+  margin-bottom: 10px;
+  color: var(--sky-accent);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* "일" 구분자 숨김 (카드에 단위 출력할거라) */
+#dDay .dday-sep{ display: none; }
+
+/* 시/분/초 뒤의 일반 텍스트(‘시간’, ‘분’, ‘초 남았어요!’) 숨기기용:
+   컨테이너만 font-size:0으로 만들고, 자식 span에만 폰트 재지정 */
+#dDay .dday-time{
+  display: inline-flex;
+  gap: 10px;
+  font-size: 0;                /* 텍스트노드 숨김 */
+  align-items: stretch;
+}
+
+/* 숫자 카드 공통 */
+#dDay .dday-days,
+#dDay .dday-hh,
+#dDay .dday-mm,
+#dDay .dday-ss{
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 62px;
+  padding: 10px 12px;
+  margin: 0 5px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  font-size: 20px;             /* 자식 span만 다시 보이도록 */
+  font-weight: 700;
+  color: #2aa7ff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 각 카드 하단 단위 라벨 */
+#dDay .dday-days::after{
+  content: "일";
+  margin-top: 2px;
+  font-size: 12px; color: #6a7a89; font-weight: 500;
+}
+#dDay .dday-hh::after{
+  content: "시간";
+  margin-top: 2px;
+  font-size: 12px; color: #6a7a89; font-weight: 500;
+}
+#dDay .dday-mm::after{
+  content: "분";
+  margin-top: 2px;
+  font-size: 12px; color: #6a7a89; font-weight: 500;
+}
+#dDay .dday-ss::after{
+  content: "초";
+  margin-top: 2px;
+  font-size: 12px; color: #6a7a89; font-weight: 500;
+}
+
+/* 작은 화면 최적화 */
+@media (max-width: 380px){
+  #dDay .dday-days,
+  #dDay .dday-hh,
+  #dDay .dday-mm,
+  #dDay .dday-ss{
+    min-width: 54px;
+    padding: 8px 10px;
+    font-size: 18px;
+  }
+  #dDay .dday-time{ gap: 8px; }
+}
+
+/* 숫자 줄 전체에서 인라인 공백 제거 */
+#dDay{
+  font-size: 0; /* .dday-label은 아래에서 다시 폰트 크기 지정 */
+}
+
+/* 라벨은 원래 크기로 */
+#dDay .dday-label{
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;         /* 리셋 */
+  color: var(--sky-accent);
+  font-weight: 600;
+}
+
+/* '일' 카드와 '시/분/초' 묶음의 간격을 gap과 동일하게 */
+#dDay .dday-time{
+  display: inline-flex;
+  align-items: stretch;
+  gap: 5px;               /* 카드 간 간격 */
+  font-size: 0;            /* 내부 텍스트(시간/분/초/남았어요) 숨김 유지 */
+}
+
+/* 카드들: margin 제거하고 gap만 사용 */
+#dDay .dday-days,
+#dDay .dday-hh,
+#dDay .dday-mm,
+#dDay .dday-ss{
+  margin: 0;               /* ✅ 기존 margin: 0 5px; 제거 */
+}
+
+/* '일' 카드 오른쪽 간격을 gap과 동일하게 맞춤 */
+#dDay .dday-days{
+  display: inline-flex;
+  margin-right: 10px;      /* ✅ .dday-time의 gap과 동일한 값 */
+}
