@@ -348,6 +348,18 @@
         </div>
       </div>
 
+      <button id="kakaoShare" class="btn">카카오톡으로 공유</button>
+
+      <script>
+        document.getElementById('kakaoShare')?.addEventListener('click', () => {
+          Kakao.Share.sendScrap({
+            requestUrl: 'https://achieveonepark.github.io/wedding-invitation', // OG 메타가 있는 최종 URL (절대경로)
+            // 서버로 콜백 필요하면 아래처럼 전달값 추가 가능
+            // templateArgs: { invite_code: 'ABC123' }
+          });
+        });
+      </script>
+      
       <!-- 토스트 -->
       <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>
