@@ -344,17 +344,33 @@
       </div>
 
       <button id="kakaoShare" class="btn">카카오톡으로 공유</button>
-
+      <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       <script>
-        document.getElementById('kakaoShare')?.addEventListener('click', () => {
-          Kakao.Share.sendScrap({
-            requestUrl: 'https://achieveonepark.github.io/wedding-invitation/', // OG 메타가 있는 최종 URL (절대경로)
-            // 서버로 콜백 필요하면 아래처럼 전달값 추가 가능
-            // templateArgs: { invite_code: 'ABC123' }
+        document.addEventListener('DOMContentLoaded', () => {
+          Kakao.init('여기에_자바스크립트_키');
+
+          const requestUrl = 'https://achieveonepark.github.io/wedding-invitation/'; // 페이지 실제 URL
+          const imageUrl   = 'https://achieveonepark.github.io/wedding-invitation/images/og_wedding.jpg'; // 충분한 크기의 JPG/PNG
+
+          document.getElementById('kakaoShare')?.addEventListener('click', () => {
+            Kakao.Share.sendDefault({
+              objectType: 'feed',
+              content: {
+                title: '박성일 ♥ 김채린 결혼합니다',
+                description: '2026년 02월 08일 일요일 오후 12시 20분 | 웨딩 시그니처 2층 트리니티홀',
+                imageUrl,                          // ✅ 이미지 강제 지정
+                link: { mobileWebUrl: requestUrl, webUrl: requestUrl },
+              },
+              buttons: [
+                {
+                  title: '모바일 청첩장 열기',
+                  link: { mobileWebUrl: requestUrl, webUrl: requestUrl }
+                }
+              ]
+            });
           });
         });
       </script>
-      
       <!-- 토스트 -->
       <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>
@@ -479,7 +495,6 @@
 
   <!-- Scripts -->
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=l98oypotsw"></script>
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js" defer></script>
     <script>
       window.addEventListener('DOMContentLoaded', () => {
         if (!window.Kakao?.isInitialized?.()) {
