@@ -350,7 +350,7 @@
           Kakao.init('여기에_자바스크립트_키');
 
           const requestUrl = 'https://achieveonepark.github.io/wedding-invitation/'; // 페이지 실제 URL
-          const imageUrl   = 'https://achieveonepark.github.io/wedding-invitation/images/og_wedding.jpg'; // 충분한 크기의 JPG/PNG
+          const imageUrl   = 'https://achieveonepark.github.io/wedding-invitation/images/gallary/01.jpg'; // 충분한 크기의 JPG/PNG
 
           document.getElementById('kakaoShare')?.addEventListener('click', () => {
             Kakao.Share.sendDefault({
@@ -358,7 +358,7 @@
               content: {
                 title: '박성일 ♥ 김채린 결혼합니다',
                 description: '2026년 02월 08일 일요일 오후 12시 20분 | 웨딩 시그니처 2층 트리니티홀',
-                imageUrl,                          // ✅ 이미지 강제 지정
+                imageUrl,
                 link: { mobileWebUrl: requestUrl, webUrl: requestUrl },
               },
               buttons: [
