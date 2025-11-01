@@ -1,128 +1,120 @@
   /* =========================================================
   0) 유틸
   ========================================================= */
-  const raf = (fn) => requestAnimationFrame(fn);
-
   /* =========================================================
-  1) BGM (원본 로직 유지 + 안전 가드)
+  1) BGM: SoundCloud 스트리밍 위젯 컨트롤
   ========================================================= */
   (() => {
-  const audio = document.getElementById('weddingBgm');
-  const btn   = document.getElementById('bgmToggle');
-  const icon  = document.getElementById('bgmIcon');
-  const label = document.getElementById('bgmLabel');
+    const iframe = document.getElementById('scPlayer');
+    const btn    = document.getElementById('bgmToggle');
+    const icon   = document.getElementById('bgmIcon');
 
-  if (!audio || !btn || !icon) return; // 요소 없으면 건너뜀
+    if (!iframe || !btn || !icon || !window.SC) return;
 
-  const saved = localStorage.getItem('wedding_bgm') ?? 'on';
-  let isOn = saved === 'on';
-  let userInteracted = false;
+    const widget = SC.Widget(iframe);
+    const saved = localStorage.getItem('wedding_bgm') ?? 'on';
+    let isOn = saved === 'on';
+    let userInteracted = false;
+    let ready = false;
+    let wasPlayingBeforeHide = false;
 
-  function updateUI() {
-  if (isOn) {
-  icon.textContent = '🔊';
-  btn.classList.add('is-playing');
-  btn.setAttribute('aria-pressed', 'true');
-  btn.setAttribute('aria-label', '배경음악 끄기');
-} else {
-  icon.textContent = '🔇';
-  btn.classList.remove('is-playing');
-  btn.setAttribute('aria-pressed', 'false');
-  btn.setAttribute('aria-label', '배경음악 켜기');
-}
-}
+    function updateUI() {
+      if (isOn) {
+        icon.textContent = '🔊';
+        btn.classList.add('is-playing');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', '배경음악 끄기');
+      } else {
+        icon.textContent = '🔇';
+        btn.classList.remove('is-playing');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', '배경음악 켜기');
+      }
+    }
 
-  function fadeVolume(target, duration = 700) {
-  const start = audio.volume;
-  const delta = target - start;
-  const t0 = performance.now();
-  function step(t) {
-  const k = Math.min(1, (t - t0) / duration);
-  audio.volume = Math.max(0, Math.min(1, start + delta * k));
-  if (k < 1) requestAnimationFrame(step);
-}
-  requestAnimationFrame(step);
-}
+    // SoundCloud 위젯 준비 완료
+    widget.bind(SC.Widget.Events.READY, () => {
+      ready = true;
+      // 기본 볼륨 (0~100)
+      widget.setVolume(60);
+      updateUI();
+    });
 
-  async function ensurePlayingMuted() {
-  audio.muted = true;
-  audio.volume = 0;
-  try { if (audio.paused) await audio.play(); }
-  catch (e) { console.debug('Muted preplay blocked until interaction:', e); }
-}
+    async function tryPlay() {
+      if (!ready) return;
+      // 모바일 정책상 사용자 인터랙션 전에는 재생 불가
+      if (!userInteracted) {
+        btn.classList.add('need-tap');
+        return;
+      }
+      widget.play();
+    }
 
-  async function unmuteWithFade(targetVol = 0.6) {
-  try {
-  if (audio.paused) await audio.play();
-  audio.muted = false;
-  fadeVolume(targetVol, 700);
-} catch (e) { console.debug('Unmute failed until user interaction:', e); }
-}
+    function tryPause() {
+      if (!ready) return;
+      widget.pause();
+    }
 
-  async function turnOn() {
-  isOn = true;
-  localStorage.setItem('wedding_bgm', 'on');
-  updateUI();
-  await ensurePlayingMuted();
-  if (userInteracted) unmuteWithFade(0.6);
-}
+    async function turnOn() {
+      isOn = true;
+      localStorage.setItem('wedding_bgm', 'on');
+      updateUI();
+      await tryPlay();
+    }
 
-  function turnOff() {
-  isOn = false;
-  localStorage.setItem('wedding_bgm', 'off');
-  fadeVolume(0, 300);
-  setTimeout(() => { audio.pause(); audio.muted = true; }, 330);
-  updateUI();
-}
+    function turnOff() {
+      isOn = false;
+      localStorage.setItem('wedding_bgm', 'off');
+      tryPause();
+      updateUI();
+    }
 
-  document.addEventListener('DOMContentLoaded', async () => {
-  await ensurePlayingMuted();
-  const cover = document.getElementById('cover');
-  if (cover) {
-  cover.addEventListener('animationend', async () => {
-  if (isOn) {
-  if (userInteracted) await unmuteWithFade(0.6);
-  else btn.classList.add('need-tap');
-}
-}, { once: true });
-}
-  updateUI();
-});
+    // 커버 애니가 끝났을 때 자동재생 시도
+    document.addEventListener('DOMContentLoaded', () => {
+      const cover = document.getElementById('cover');
+      if (cover) {
+        cover.addEventListener('animationend', () => {
+          if (isOn) tryPlay();
+        }, { once: true });
+      } else {
+        if (isOn) tryPlay();
+      }
+    });
 
-  const markInteracted = async () => {
-  if (userInteracted) return;
-  userInteracted = true;
-  if (isOn) {
-  btn.classList.remove('need-tap');
-  await unmuteWithFade(0.6);
-} else {
-  await ensurePlayingMuted();
-}
-  window.removeEventListener('pointerdown', markInteracted, { capture: true });
-  window.removeEventListener('keydown', markInteracted, { capture: true });
-  window.removeEventListener('touchstart', markInteracted, { capture: true, passive: true });
-};
+    // 사용자 인터랙션 표시
+    const markInteracted = () => {
+      if (userInteracted) return;
+      userInteracted = true;
+      btn.classList.remove('need-tap');
+      if (isOn) tryPlay();
+      window.removeEventListener('pointerdown', markInteracted, { capture: true });
+      window.removeEventListener('keydown', markInteracted, { capture: true });
+      window.removeEventListener('touchstart', markInteracted, { capture: true, passive: true });
+    };
+    window.addEventListener('pointerdown', markInteracted, { capture: true });
+    window.addEventListener('keydown',     markInteracted, { capture: true });
+    window.addEventListener('touchstart',  markInteracted, { capture: true, passive: true });
 
-  window.addEventListener('pointerdown', markInteracted, { capture: true });
-  window.addEventListener('keydown',     markInteracted, { capture: true });
-  window.addEventListener('touchstart',  markInteracted, { capture: true, passive: true });
+    // 토글 버튼
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (isOn) turnOff();
+      else turnOn();
+    });
 
-  btn.addEventListener('click', async (e) => {
-  e.preventDefault();
-  if (isOn) turnOff();
-  else {
-  await turnOn();
-  if (userInteracted) await unmuteWithFade(0.6);
-}
-});
+    // 탭 전환/백그라운드
+    document.addEventListener('visibilitychange', () => {
+      if (!ready) return;
+      if (document.visibilityState === 'hidden') {
+        // 현재 재생 중 여부 저장
+        widget.isPaused((paused) => { wasPlayingBeforeHide = !paused; });
+        tryPause();
+      } else {
+        if (isOn && wasPlayingBeforeHide) tryPlay();
+      }
+    });
+  })();
 
-  document.addEventListener('visibilitychange', async () => {
-  if (document.visibilityState === 'visible' && isOn) {
-  await ensurePlayingMuted();
-  if (userInteracted) await unmuteWithFade(audio.volume || 0.6);
-}
-});
-})();
 
   /* =========================================================
   2) 커버 스크롤락 (원본 유지)

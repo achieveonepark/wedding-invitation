@@ -8,11 +8,13 @@
   
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="박성일 ♥ 김채린 결혼합니다" />
-  <meta property="og:description" content="2026년 02월 08일 일요일 오후 12시 20분 | 웨딩 시그니처 2층 트리니티홀" />
+  <meta property="og:title" content="박성일 ❤️ 김채린 결혼합니다" />
+  <meta property="og:description" content="2026년 02월 08일 일요일 오후 12시 20분
+웨딩 시그니처 2층 트리니티홀
+https://somchae.wedding" />
   <meta property="og:image" content="https://achieveonepark.github.io/wedding-invitation/images/gallary/01.jpg" />
-  <meta property="og:url" content="https://achieveonepark.github.io/wedding-invitation/" />
-  <link rel="canonical" href="https://achieveonepark.github.io/wedding-invitation/" />
+  <meta property="og:url" content="https://somchae.wedding" />
+  <link rel="canonical" href="https://somchae.wedding" />
   <meta property="og:site_name" content="모바일 청첩장" />
   <meta property="og:locale" content="ko_KR" />
 
@@ -23,17 +25,16 @@
 <body>
   <button id="bgmToggle" class="bgm-btn" aria-label="배경음악 켜기" aria-pressed="false">
     <span id="bgmIcon">🔊</span>
-<!--    <span id="bgmLabel" class="sr-only">BGM ON</span>-->
   </button>
-
-  <audio id="weddingBgm"
-         src="musics/bgm.mp3"
-         muted
-         loop
-         preload="auto"
-         playsinline>
-    
-  </audio>
+  <!-- SoundCloud (숨김) -->
+  <!-- SoundCloud Player (Encrypted Media 허용) -->
+  <iframe
+          id="scPlayer"
+          allow="autoplay; encrypted-media"
+          style="display:none;width:0;height:0;border:0;"
+          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/e-soundtrax/wedding-background-music-piano-instrumental-romantic&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false">
+  </iframe>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
   
   <!-- 커버 화면 -->
   <div class="container">
