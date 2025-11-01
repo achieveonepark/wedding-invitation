@@ -142,6 +142,15 @@ body {
   font-family: 'titleFont', sans-serif; /* ✅ 추가 */
 }
 
+.section-title-ko {
+  text-align: center;
+  font-size: 36px;
+  color: #4f7ec8;
+  margin-bottom: 25px;
+  font-weight: 400;
+  font-family: 'MyWeddingFont', sans-serif; /* ✅ 추가 */
+}
+
 .d-day{
   margin-top: 8px;
   text-align: center;
@@ -164,6 +173,15 @@ body {
 .d-day .dday-label{ opacity: .85; margin-right: 2px; }
 .d-day .dday-sep  { margin: 0 4px; opacity: .8; }
 .d-day .dday-time { font-weight: 800; }
+.heart-title{
+  display: block;
+  margin-bottom: 15px;
+}
+
+#accounts + .contact-trigger {
+  text-align: center;
+  padding: 40px 0;
+}
 
 .message { text-align: center; font-size: 15px; line-height: 1.9; color: #6a6a6a; padding: 0 10px; }
 
@@ -182,19 +200,62 @@ body {
   display: block;
 }
 
-/* 더보기(summary) 가운데 정렬 */
+/* 갤러리 전체를 감싸는 컨테이너 */
+.gallery-container {
+  position: relative;
+}
+
+/* 더보기 버튼을 그라데이션 오버레이로 변경 */
 .gallery-more {
-  margin-top: 8px;
-  text-align: center;        /* ✅ 가운데 정렬 */
+  /* 기존 스타일 제거 */
+  margin: 0;
+  text-align: initial;
 }
 
-/* 더보기 버튼 눌러서 펼쳐지면 버튼 숨김 */
+summary.more-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%; /* 마지막 한 줄을 덮을 높이 */
+  cursor: pointer;
+  background: linear-gradient(to top, var(--sky-2) 15%, transparent 100%);
+  list-style: none; /* Firefox 등에서 마커 제거 */
+  text-indent: -9999px; /* 텍스트 숨기기 */
+}
+
+summary.more-btn::-webkit-details-marker {
+  display: none; /* Safari, Chrome 마커 제거 */
+}
+
+/* '더보기' 아이콘 추가 */
+summary.more-btn::after {
+  content: '더보기';
+  text-indent: 0; /* 아이콘 텍스트는 다시 보이게 */
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* 펼쳤을 때 오버레이(summary) 숨기기 */
 .gallery-more[open] > summary.more-btn {
-  display: none;             /* ✅ 펼친 뒤 사라짐 */
+  display: none;
 }
 
-.gallery-more > summary.more-btn::-webkit-details-marker { display: none; }
-.gallery--more { margin-top: 10px; }
+/* 추가 갤러리 상단 간격을 그리드 갭과 동일하게 조정 */
+.gallery--more {
+  margin-top: 8px;
+}
 
 /* CSS-only Lightbox (iframe) */
 .lightbox {
@@ -231,9 +292,9 @@ body {
   z-index: 10011;
   width: 44px;
   height: 44px;
-  line-height: 44px;
-  text-align: center;
-  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
   text-decoration: none;
   background: rgba(0,0,0,.35);
@@ -953,4 +1014,21 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 #dDay .dday-days{
   display: inline-flex;
   margin-right: 10px;      /* ✅ .dday-time의 gap과 동일한 값 */
+}
+
+#kakaoShare {
+  display: block;
+  margin: 0 auto;
+}
+
+.thankyou-message {
+  position: fixed;
+  bottom: 80px; /* 버튼 위로 띄우기 */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  z-index: 999;
 }

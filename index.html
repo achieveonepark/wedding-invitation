@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <link rel="preconnect" href="https://w.soundcloud.com" crossorigin>
+  <link rel="preconnect" href="https://api.soundcloud.com" crossorigin>
+  <link rel="preconnect" href="https://i1.sndcdn.com" crossorigin>
+  <link rel="preconnect" href="https://cf-media.sndcdn.com" crossorigin>
+
+  <link rel="dns-prefetch" href="https://w.soundcloud.com">
+  <link rel="dns-prefetch" href="https://api.soundcloud.com">
+  <link rel="dns-prefetch" href="https://i1.sndcdn.com">
+  <link rel="dns-prefetch" href="https://cf-media.sndcdn.com">
   <link rel="preload" as="image" href="./images/cover.jpg" imagesrcset="./images/cover.jpg" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,7 +40,8 @@ https://somchae.wedding" />
   <iframe
           id="scPlayer"
           allow="autoplay; encrypted-media"
-          style="display:none;width:0;height:0;border:0;"
+          loading="eager"
+          style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;border:0;"
           src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/e-soundtrax/wedding-background-music-piano-instrumental-romantic&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false">
   </iframe>
   <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -190,7 +200,7 @@ https://somchae.wedding" />
           <strong class="child-name">채린</strong>
         </div>
         <div class="contact-trigger">
-          <button id="open-contact-modal-btn" class="btn">혼주 및 신랑신부에게 연락하기</button>
+            <button id="open-contact-modal-btn" class="btn">혼주 및 신랑신부에게 연락하기</button>
         </div>
       </div>
       
@@ -200,42 +210,44 @@ https://somchae.wedding" />
         <div class="divider">❖</div>
         <div class="section-title">Gallery</div>
 
-        <!-- 항상 보이는 9개 -->
-        <div class="gallery">
-          <!-- 각 썸네일은 자신만의 라이트박스(아이디)로 이동 -->
-          <a class="gallery-item" href="#lb-02"><img src="images/gallary/01.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-02"><img src="images/gallary/02.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-03"><img src="images/gallary/03.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-04"><img src="images/gallary/04.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-05"><img src="images/gallary/05.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-06"><img src="images/gallary/06.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-07"><img src="images/gallary/07.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-08"><img src="images/gallary/08.jpg" alt=""></a>
-          <a class="gallery-item" href="#lb-09"><img src="images/gallary/09.jpg" alt=""></a>
-        </div>
-
-        <!-- 더보기: 가변 개수는 여기 안에 썸네일을 추가/삭제하면 됨 -->
-        <details class="gallery-more">
-          <summary class="more-btn">더보기</summary>
-          <div class="gallery gallery--more">
-            <a class="gallery-item" href="#lb-10"><img src="images/gallary/10.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-11"><img src="images/gallary/11.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-12"><img src="images/gallary/12.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-13"><img src="images/gallary/13.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-14"><img src="images/gallary/14.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-15"><img src="images/gallary/15.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-16"><img src="images/gallary/16.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-17"><img src="images/gallary/17.jpg" alt=""></a>
-            <a class="gallery-item" href="#lb-18"><img src="images/gallary/18.jpg" alt=""></a>
-            <!-- 필요 시 19, 20… 계속 추가 -->
+        <div class="gallery-container">
+          <!-- 항상 보이는 9개 -->
+          <div class="gallery">
+            <!-- 각 썸네일은 자신만의 라이트박스(아이디)로 이동 -->
+            <a class="gallery-item" href="#lb-02"><img src="images/gallary/01.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-02"><img src="images/gallary/02.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-03"><img src="images/gallary/03.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-04"><img src="images/gallary/04.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-05"><img src="images/gallary/05.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-06"><img src="images/gallary/06.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-07"><img src="images/gallary/07.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-08"><img src="images/gallary/08.jpg" alt=""></a>
+            <a class="gallery-item" href="#lb-09"><img src="images/gallary/09.jpg" alt=""></a>
           </div>
-        </details>
+
+          <!-- 더보기: 가변 개수는 여기 안에 썸네일을 추가/삭제하면 됨 -->
+          <details class="gallery-more">
+            <summary class="more-btn">더보기</summary>
+            <div class="gallery gallery--more">
+              <a class="gallery-item" href="#lb-10"><img src="images/gallary/10.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-11"><img src="images/gallary/11.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-12"><img src="images/gallary/12.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-13"><img src="images/gallary/13.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-14"><img src="images/gallary/14.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-15"><img src="images/gallary/15.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-16"><img src="images/gallary/16.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-17"><img src="images/gallary/17.jpg" alt=""></a>
+              <a class="gallery-item" href="#lb-18"><img src="images/gallary/18.jpg" alt=""></a>
+              <!-- 필요 시 19, 20… 계속 추가 -->
+            </div>
+          </details>
+        </div>
       </div>
 
       <!-- ===== 계좌 안내 (마음 전하실 곳) ===== -->
       <div class="section fade-in" id="accounts">
         <div class="divider">❖</div>
-        <div class="section-title">마음을 전하는 곳</div>
+        <div class="section-title-ko">마음을 전하는 곳</div>
 
         <!-- 신랑측 -->
         <div class="subline"><span class="subline-title">신랑측</span></div>
@@ -343,8 +355,11 @@ https://somchae.wedding" />
           </details>
         </div>
       </div>
-
-      <button id="kakaoShare" class="btn">카카오톡으로 공유</button>
+      
+      <div class="contact-trigger">
+        <span class="heart-title">화환은 정중히 사양합니다. 감사합니다.</span>
+        <button id="kakaoShare" class="btn">카카오톡으로 공유</button>
+      </div>
       <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {

@@ -404,7 +404,7 @@
         const mm   = Math.floor((rem % HOUR) / MINUTE);
         const ss   = Math.floor((rem % MINUTE) / SECOND);
 
-        elDays.textContent = String(days).padStart(3, '0'); // 3자리 고정
+        elDays.textContent = String(days).padStart(2, '0'); // 3자리 고정
         elHH.textContent   = pad2(hh);
         elMM.textContent   = pad2(mm);
         elSS.textContent   = pad2(ss);
