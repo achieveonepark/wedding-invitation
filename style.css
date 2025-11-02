@@ -1087,3 +1087,32 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
   line-height: 1.6;
   z-index: 999;
 }
+
+/* 텍스트 선택/롱프레스 메뉴/탭 하이라이트 제거 */
+html, body {
+  -webkit-touch-callout: none;  /* iOS 길게 눌러 저장/복사 메뉴 차단 */
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;    /* 상하단 바운스/뒤로가기 제스처 억제 약간 도움 */
+}
+
+/* 더블탭 확대 방지에 도움(클릭 요소) */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* 이미지/아이콘 드래그 방지 */
+img, svg, a img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* 필요시: 이미지 길게 눌러 저장 막고 싶으면 */
+img {
+  -webkit-touch-callout: none;
+}
+
+/* (선택) 전체 페이지 스와이프만 허용하고 핀치 제한 강화하고 싶을 때
+ * 너무 강하면 스크롤도 막히므로 기본값은 비권장
+ * body { touch-action: pan-y; } 
+ */

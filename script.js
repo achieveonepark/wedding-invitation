@@ -1,6 +1,50 @@
   /* =========================================================
   0) 유틸
   ========================================================= */
+  document.addEventListener('DOMContentLoaded', () => {
+    /* 마우스 드래그(이미지/링크) 차단 */
+    document.addEventListener('dragstart', e => e.preventDefault());
+
+    /* 우클릭 메뉴 차단 (이미지 저장/컨텍스트 메뉴 방지) */
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    /* Ctrl/⌘ + 휠 확대 차단 (데스크톱 크롬/엣지) */
+    document.addEventListener('wheel', e => {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+
+    /* Ctrl/⌘ + (+,-,=,0) 확대/축소/초기화 키 차단 */
+    document.addEventListener('keydown', e => {
+      const key = e.key;
+      if ((e.ctrlKey || e.metaKey) && ['+', '=', '-', '_', '0'].includes(key)) {
+        e.preventDefault();
+      }
+    });
+
+    /* iOS Safari: 제스처 핀치 확대 차단 */
+    ['gesturestart','gesturechange','gestureend'].forEach(type => {
+      document.addEventListener(type, e => e.preventDefault());
+    });
+
+    /* 멀티터치(2손가락) 이동 = 핀치 시도 차단 */
+    document.addEventListener('touchmove', e => {
+      if (e.touches && e.touches.length > 1) e.preventDefault();
+      // 사파리 비표준 scale 값도 방어
+      if (typeof e.scale === 'number' && e.scale !== 1) e.preventDefault();
+    }, { passive: false });
+
+    /* 더블탭 확대 방지 (iOS/모바일 공통) */
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', e => {
+      const now = Date.now();
+      if (now - lastTouchEnd < 300) {
+        e.preventDefault(); // 더블탭으로 인한 확대 차단
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
+  });
+
+
   /* =========================================================
   1) BGM: SoundCloud 스트리밍 위젯 컨트롤
   ========================================================= */
