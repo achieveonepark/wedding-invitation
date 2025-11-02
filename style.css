@@ -152,11 +152,11 @@ body {
 
 .section-title-ko {
   text-align: center;
-  font-size: 36px;
+  font-size: 24px;
   color: #4f7ec8;
   margin-bottom: 25px;
   font-weight: 400;
-  font-family: 'MyWeddingFont', sans-serif; /* ✅ 추가 */
+  font-family: 'GowoonDodum', sans-serif; /* ✅ 추가 */
 }
 
 .d-day{
