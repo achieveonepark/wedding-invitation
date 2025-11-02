@@ -86,7 +86,15 @@ body {
 }
 .bgm-btn:hover { transform: translateY(-1px); background: var(--sky-3); color: #fff; }
 .bgm-btn.is-playing { background: var(--sky-3); color: #fff; }
+#bgmToggle {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
 
+/* 나타날 때 */
+#bgmToggle.show {
+  opacity: 1;
+}
 /* ===================================================================
    Header (Hero)
    =================================================================== */
@@ -469,6 +477,53 @@ summary.more-btn::after {
 /* ===================================================================
    Cover (Intro overlay) + Scroll Lock
    =================================================================== */
+/* 커버 기본 */
+#cover { opacity: 1; transition: opacity 1.2s ease; }
+
+/* 사르르 사라지기 */
+#cover.fade-out {
+  opacity: 0;
+  pointer-events: none;     /* 사라진 뒤 클릭 막힘 */
+}
+
+.wedding-title {
+  font: 500 15px/1.2 'titleFont', serif; /* 필요시 14~16px 조절 */
+  font-size: clamp(28px, 6vw, 64px);
+  color: #a0dcff;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(18px);
+  /* 한 번만 재생하고 상태 유지 */
+  animation: title-seq 8.5s ease-in-out forwards;
+}
+
+/* 0~25%: 부드럽게 등장 / 25~85%: 충분히 머무름 / 85~100%: 서서히 사라짐 */
+@keyframes title-seq {
+  0%   { opacity: 0; transform: translateY(18px); }
+  25%  { opacity: 1; transform: translateY(0); }
+  85%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* 모션 민감 사용자 배려(선택) */
+@media (prefers-reduced-motion: reduce) {
+  .wedding-title { animation: none; opacity: 1; transform: none; }
+}
+
+@keyframes fadeInWrite {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    text-shadow: 0 0 15px rgba(200, 155, 123, 0.5);
+  }
+}
+
 .cover{
   position: fixed; top: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: var(--card-max); height: 100svh;

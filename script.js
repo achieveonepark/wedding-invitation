@@ -69,6 +69,25 @@
       updateUI();
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+      const title = document.getElementById('coverTitle');
+      const cover = document.getElementById('cover');
+      const bgmBtn = document.getElementById('bgmToggle');
+      if (!title || !cover || !bgmBtn) return;
+
+      // 제목 애니메이션이 끝나면 커버 사라지게
+      title.addEventListener('animationend', (e) => {
+        if (e.animationName === 'title-seq') {
+          cover.classList.add('fade-out');
+
+          // 커버가 다 사라질 시간을 고려해 약간 늦게 등장
+          setTimeout(() => {
+            bgmBtn.classList.add('show');
+          }, 1000); // fade-out 1초 뒤
+        }
+      });
+    });
+
     // 커버 애니가 끝났을 때 자동재생 시도
     document.addEventListener('DOMContentLoaded', () => {
       const cover = document.getElementById('cover');
