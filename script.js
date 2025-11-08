@@ -585,11 +585,7 @@
             console.log('[Kakao] inited with appkey');
           }
 
-          // 2) scrap 대상은 현재 호스트로 테스트
-          const url = location.origin; // ex) https://somchae.wedding
-          console.log('[Kakao] sendScrap url=', url);
-
-          Kakao.Share.sendScrap({ requestUrl: url });
+          Kakao.Share.sendScrap({ requestUrl: 'https://somchae.wedding' });
         } catch (e) {
           console.error('[Kakao] error', e);
           alert('공유 중 오류가 발생했어요.');
