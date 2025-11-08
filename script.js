@@ -564,45 +564,43 @@
   });
 
   // 푸터 텍스트형 버튼으로 공유 실행
-  document.getElementById('kakaoShareFooter')?.addEventListener('click', () => {
-    try {
-      if (typeof Kakao === 'undefined') {
-        alert('공유 기능 준비 중입니다. 잠시 후 다시 시도해주세요.');
-        return;
-      }
+  document.addEventListener('DOMContentLoaded', () => {
+    const shareBtn = document.getElementById('kakaoShareFooter');
+    const copyBtn  = document.getElementById('copyUrlButton');
 
-      // ✅ 1) URL 카드 공유 (OG 메타가 있는 최종 URL)
-      Kakao.Share.sendScrap({
-        requestUrl: 'https://achieveonepark.github.io/wedding-invitation',
+    if (shareBtn) {
+      shareBtn.addEventListener('click', () => {
+        try {
+          if (typeof window.Kakao === 'undefined') {
+            alert('공유 기능 준비 중입니다. 잠시 후 다시 시도해주세요.');
+            return;
+          }
+          if (!Kakao.isInitialized?.()) {
+            // ✅ 여기에 본인 JavaScript 키 입력
+            Kakao.init('여기에_본인_카카오_JavaScript_키');
+          }
+
+          // ✅ OG 메타가 있는 최종 배포 URL
+          Kakao.Share.sendScrap({
+            requestUrl: 'https://achieveonepark.github.io/wedding-invitation',
+          });
+        } catch (e) {
+          console.error(e);
+          alert('공유 중 오류가 발생했어요.');
+        }
       });
-
-      // ✅ 2) 커스텀 템플릿/피드 공유가 필요하면 아래 예시로 전환
-      // Kakao.Share.sendDefault({
-      //   objectType: 'feed',
-      //   content: {
-      //     title: '우리의 웨딩 페이지',
-      //     description: '초대합니다 💐',
-      //     imageUrl: 'https://achieveonepark.github.io/wedding-invitation/og-image.jpg',
-      //     link: {
-      //       mobileWebUrl: 'https://achieveonepark.github.io/wedding-invitation',
-      //       webUrl: 'https://achieveonepark.github.io/wedding-invitation',
-      //     },
-      //   },
-      // });
-    } catch (e) {
-      console.error(e);
-      alert('공유 중 오류가 발생했어요.');
     }
-  });
 
-  // ✅ URL 복사 버튼 클릭 시
-  document.getElementById('copyUrlButton')?.addEventListener('click', async () => {
-    const url = window.location.href; // 현재 페이지 주소
-    try {
-      await navigator.clipboard.writeText(url);
-      alert('링크가 복사되었습니다! 📋');
-    } catch (err) {
-      console.error('클립보드 복사 실패:', err);
-      alert('복사에 실패했습니다. 직접 복사해주세요 😢');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const url = window.location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          alert('링크가 복사되었습니다! 📋');
+        } catch (err) {
+          console.error('클립보드 복사 실패:', err);
+          alert('복사에 실패했습니다. 직접 복사해주세요 😢');
+        }
+      });
     }
   });

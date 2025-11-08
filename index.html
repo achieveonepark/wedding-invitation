@@ -485,6 +485,8 @@ https://somchae.wedding" />
 
   <!-- Scripts -->
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=l98oypotsw"></script>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js" crossorigin="anonymous" defer></script>
+
     <script>
       window.addEventListener('DOMContentLoaded', () => {
         if (!window.Kakao?.isInitialized?.()) {
@@ -492,7 +494,7 @@ https://somchae.wedding" />
         }
       });
     </script>
-  <script src="./script.js"></script>
+  <script src="./script.js" defer></script>
 
     <!-- Lightbox 01 -->
     <div id="lb-01" class="lightbox" aria-modal="true" role="dialog" aria-label="사진 보기">
@@ -637,26 +639,25 @@ https://somchae.wedding" />
       <a class="lightbox__nav lightbox__next" href="#lb-01" aria-label="다음 사진">▶</a>
       <img class="lightbox__img" src="images/gallary/18.jpg" alt="">
     </div>
+    <footer class="footer">
+      <div class="footer-actions">
+        <!-- 🔸 카카오톡 공유하기 버튼 -->
+        <button type="button" id="kakaoShareFooter" class="kakao-share-link" aria-label="카카오톡으로 공유하기">
+          <img src="images/kakao_icon.svg" alt="" class="kakao-share-icon" aria-hidden="true">
+          <span>카카오톡 공유하기</span>
+        </button>
 
+        <!-- 🔸 클립보드 복사 버튼 (아래쪽) -->
+        <button type="button" id="copyUrlButton" class="clipboard-btn" aria-label="링크 복사하기">
+          <img src="images/clipboard_icon.svg" alt="" class="clipboard-icon" aria-hidden="true">
+          <span>링크 복사하기</span>
+        </button>
+      </div>
+
+      <div class="footer-content">
+        <img src="images/somchae.png" alt="Somchae Logo" class="footer-logo">
+        <p class="footer-text">© 2025 Somchae. All rights reserved.</p>
+      </div>
+    </footer>
 </body>
-<footer class="footer">
-  <div class="footer-actions">
-    <!-- 🔸 카카오톡 공유하기 버튼 -->
-    <button type="button" id="kakaoShareFooter" class="kakao-share-link" aria-label="카카오톡으로 공유하기">
-      <img src="images/kakao_icon.svg" alt="" class="kakao-share-icon" aria-hidden="true">
-      <span>카카오톡 공유하기</span>
-    </button>
-
-    <!-- 🔸 클립보드 복사 버튼 (아래쪽) -->
-    <button type="button" id="copyUrlButton" class="clipboard-btn" aria-label="링크 복사하기">
-      <img src="images/clipboard_icon.svg" alt="" class="clipboard-icon" aria-hidden="true">
-      <span>링크 복사하기</span>
-    </button>
-  </div>
-
-  <div class="footer-content">
-    <img src="images/somchae.png" alt="Somchae Logo" class="footer-logo">
-    <p class="footer-text">© 2025 Somchae. All rights reserved.</p>
-  </div>
-</footer>
 </html>
