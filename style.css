@@ -181,9 +181,13 @@ body {
 .d-day .dday-label{ opacity: .85; margin-right: 2px; }
 .d-day .dday-sep  { margin: 0 4px; opacity: .8; }
 .d-day .dday-time { font-weight: 800; }
-.heart-title{
+.heart-title {
   display: block;
-  margin-bottom: 15px;
+  text-align: center;
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 10px;
+  font-family: 'GowoonDodum', sans-serif;
 }
 
 #accounts + .contact-trigger {
@@ -566,9 +570,42 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 }
 @keyframes reveal-circle { to { clip-path: circle(142% at 50% 50%); -webkit-clip-path: circle(142% at 50% 50%); } }
 
-.map-buttons { text-align: center; margin-top: 15px; display: flex; justify-content: center; gap: 10px; }
-.map-btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; text-decoration: none; }
-.btn-icon { width: 20px; height: 20px; }
+/* 지도 아이콘을 '이미지 자체 버튼'로 */
+.map-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.map-buttons .map-btn {
+  /* 기존 .btn 스타일 무력화 */
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: inline-block;
+  line-height: 0;           /* 이미지 주변 여백 제거 */
+  cursor: pointer;
+}
+
+.map-buttons .map-btn .btn-icon {
+  width: 40px;              /* 필요 시 80~120px로 조절 */
+  height: auto;
+  display: block;
+}
+
+/* 살짝 인터랙션(선택 사항) */
+.map-buttons .map-btn:focus-visible img,
+.map-buttons .map-btn:hover img {
+  filter: brightness(0.95);
+  outline: 2px solid rgba(42,167,255,0.25);
+  outline-offset: 2px;
+}
+.map-buttons .map-btn:active img {
+  transform: scale(0.98);
+}
 .parking-info { white-space: pre-wrap; text-align: left; }
 
 .flower-icon { width: 20px; height: 20px; margin-bottom: 2px;}
@@ -1116,3 +1153,93 @@ img {
  * 너무 강하면 스크롤도 막히므로 기본값은 비권장
  * body { touch-action: pan-y; } 
  */
+
+.footer {
+  background-color: #f0f0f0; /* 밝은 회색 배경 */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  width: 140px;      /* 필요하면 100~160px로 조정 가능 */
+  height: auto;
+  opacity: 0.9;      /* 살짝 부드럽게 */
+}
+
+.footer-text {
+  color: #555;
+  font-size: 14px;
+  font-family: 'Pretendard', sans-serif;
+  margin: 0;
+}
+
+/* ===== Footer share text button ===== */
+/* ===== Footer actions: 카카오톡 공유하기(위) + 링크 복사하기(아래) ===== */
+.footer-actions {
+  background: #f0f0f0;
+  padding: 16px 20px 0;
+  text-align: center;
+  margin-bottom: 60px;
+
+  /* 세로 배치 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* 버튼 사이 간격 */
+}
+
+/* 공통 버튼 스타일 */
+.kakao-share-link,
+.clipboard-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: #222;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 2px;
+  transition: opacity 0.2s;
+}
+
+/* 텍스트 크기/두께 */
+.kakao-share-link span,
+.clipboard-btn span {
+  font-size: 17px;   /* 필요하면 14~16px로 조절 */
+  font-weight: 500;
+}
+
+/* 아이콘 크기 통일 */
+.kakao-share-icon,
+.clipboard-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
+
+/* 호버/액티브 인터랙션 */
+.kakao-share-link:hover span,
+.clipboard-btn:hover span {
+  text-decoration: underline;
+}
+.kakao-share-link:active,
+.clipboard-btn:active {
+  opacity: 0.7;
+}
+
+/* 접근성: 키보드 포커스 표시 */
+.kakao-share-link:focus-visible,
+.clipboard-btn:focus-visible {
+  outline: 2px solid rgba(0,0,0,.2);
+  outline-offset: 2px;
+}

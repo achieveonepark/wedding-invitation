@@ -143,15 +143,14 @@ https://somchae.wedding" />
       <div id="naver-map" style="width: 100%; height: 300px; border-radius: 10px; overflow: hidden;"></div>
 
       <div class="map-buttons">
-        <!-- 네이버 지도/네비로 바로 여는 외부 링크 버튼(선택) -->
-        <a href="https://map.naver.com/p/search/%EC%9B%A8%EB%94%A9%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98?c=15.00,0,0,0,dhss" target="_blank" class="btn map-btn">
+        <a href="https://map.naver.com/p/search/..." target="_blank" class="map-btn" aria-label="네이버 지도 열기">
           <img src="images/naver_map.webp" alt="네이버 지도" class="btn-icon">
         </a>
-        <a href="tmap://route?rGoName=웨딩시그니처&rGoX=126.9125&rGoY=37.5489" target="_blank" class="btn map-btn">
+        <a href="tmap://route?rGoName=웨딩시그니처&rGoX=126.9125&rGoY=37.5489" target="_blank" class="map-btn" aria-label="티맵 경로 안내 열기">
           <img src="images/tmap.svg" alt="TMap" class="btn-icon">
         </a>
-        <a href="https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=%2C%2C480353%2C1124968&rt1=&rt2=%EC%9B%A8%EB%94%A9+%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98+%ED%8A%B8%EB%A6%AC%EB%8B%88%ED%8B%B0%ED%99%80&rtIds=%2C&rtTypes=%2C" target="_blank" class="btn map-btn">
-          <img src="images/kakao_map.png" alt="Kakao Map" class="btn-icon">
+        <a href="https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=%2C%2C480353%2C1124968&rt1=&rt2=%EC%9B%A8%EB%94%A9+%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98+%ED%8A%B8%EB%A6%AC%EB%8B%88%ED%8B%B0%ED%99%80&rtIds=%2C&rtTypes=%2C" target="_blank" class="map-btn" aria-label="카카오맵 열기">
+          <img src="images/kakao_map.png" alt="카카오맵" class="btn-icon">
         </a>
       </div>
       <div class="info-box">
@@ -247,6 +246,7 @@ https://somchae.wedding" />
 
       <!-- ===== 계좌 안내 (마음 전하실 곳) ===== -->
       <div class="section fade-in" id="accounts">
+        <span class="heart-title">화환은 정중히 사양합니다. 감사합니다.</span>
         <div class="divider">❖</div>
         <div class="section-title-ko">마음을 전하는 곳</div>
 
@@ -357,37 +357,6 @@ https://somchae.wedding" />
         </div>
       </div>
       
-      <div class="contact-trigger">
-        <span class="heart-title">화환은 정중히 사양합니다. 감사합니다.</span>
-        <button id="kakaoShare" class="btn">카카오톡으로 공유</button>
-      </div>
-      <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17');
-
-          const requestUrl = 'https://achieveonepark.github.io/wedding-invitation/'; // 페이지 실제 URL
-          const imageUrl   = 'https://achieveonepark.github.io/wedding-invitation/images/gallary/01.jpg'; // 충분한 크기의 JPG/PNG
-
-          document.getElementById('kakaoShare')?.addEventListener('click', () => {
-            Kakao.Share.sendDefault({
-              objectType: 'feed',
-              content: {
-                title: '박성일 ♥ 김채린 결혼합니다',
-                description: '2026년 02월 08일 일요일 오후 12시 20분 | 웨딩 시그니처 2층 트리니티홀',
-                imageUrl,
-                link: { mobileWebUrl: requestUrl, webUrl: requestUrl },
-              },
-              buttons: [
-                {
-                  title: '모바일 청첩장 열기',
-                  link: { mobileWebUrl: requestUrl, webUrl: requestUrl }
-                }
-              ]
-            });
-          });
-        });
-      </script>
       <!-- 토스트 -->
       <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
   </div>
@@ -666,4 +635,24 @@ https://somchae.wedding" />
     </div>
 
 </body>
+<footer class="footer">
+  <div class="footer-actions">
+    <!-- 🔸 카카오톡 공유하기 버튼 -->
+    <button type="button" id="kakaoShareFooter" class="kakao-share-link" aria-label="카카오톡으로 공유하기">
+      <img src="images/kakao_icon.svg" alt="" class="kakao-share-icon" aria-hidden="true">
+      <span>카카오톡 공유하기</span>
+    </button>
+
+    <!-- 🔸 클립보드 복사 버튼 (아래쪽) -->
+    <button type="button" id="copyUrlButton" class="clipboard-btn" aria-label="링크 복사하기">
+      <img src="images/clipboard_icon.svg" alt="" class="clipboard-icon" aria-hidden="true">
+      <span>링크 복사하기</span>
+    </button>
+  </div>
+
+  <div class="footer-content">
+    <img src="images/somchae.png" alt="Somchae Logo" class="footer-logo">
+    <p class="footer-text">© 2025 Somchae. All rights reserved.</p>
+  </div>
+</footer>
 </html>
