@@ -574,21 +574,24 @@
     if (shareBtn) {
       shareBtn.addEventListener('click', () => {
         try {
-          if (typeof window.Kakao === 'undefined') {
-            alert('공유 기능 준비 중입니다. 잠시 후 다시 시도해주세요.');
-            return;
-          }
-          if (!Kakao.isInitialized?.()) {
-            // ✅ 여기에 본인 JavaScript 키 입력
-            Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17');
+          if (!window.Kakao) { alert('Kakao SDK 로딩 전'); return; }
+
+          // 1) SDK / 도메인 진단 로그
+          console.log('[Kakao] init?', Kakao.isInitialized?.());
+          console.log('[Kakao] origin', location.origin);
+
+          if (!Kakao.isInitialized()) {
+            Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17'); // 같은 앱의 JS 키
+            console.log('[Kakao] inited with appkey');
           }
 
-          // ✅ OG 메타가 있는 최종 배포 URL
-          Kakao.Share.sendScrap({
-            requestUrl: 'https://achieveonepark.github.io/wedding-invitation',
-          });
+          // 2) scrap 대상은 현재 호스트로 테스트
+          const url = location.origin; // ex) https://somchae.wedding
+          console.log('[Kakao] sendScrap url=', url);
+
+          Kakao.Share.sendScrap({ requestUrl: url });
         } catch (e) {
-          console.error(e);
+          console.error('[Kakao] error', e);
           alert('공유 중 오류가 발생했어요.');
         }
       });
