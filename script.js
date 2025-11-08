@@ -604,3 +604,42 @@
       });
     }
   });
+
+  (() => {
+    let lbScrollY = 0;
+
+    // 라이트박스 열 때 현재 스크롤 저장 (갤러리 썸네일이 #lb- 로 연결된 앵커)
+    document.addEventListener('click', (e) => {
+      const opener = e.target.closest('a[href^="#lb-"]');
+      if (opener) {
+        lbScrollY = window.scrollY || window.pageYOffset;
+      }
+    }, { passive: true });
+
+    // X 버튼으로 닫을 때: 기본 동작 허용 -> :target 해제 -> 스크롤 복원 + URL 정리
+    document.addEventListener('click', (e) => {
+      const close = e.target.closest('.lightbox__close');
+      if (!close) return; // 기본 동작 막지 않음!
+
+      // 다음 틱에 스크롤 복원 + # 제거
+      setTimeout(() => {
+        // 주소 끝의 # 제거 (라이트박스는 이미 닫힌 상태)
+        const cleanUrl = window.location.pathname + window.location.search;
+        if (history.replaceState) history.replaceState(null, '', cleanUrl);
+
+        // 스크롤 복원
+        window.scrollTo(0, lbScrollY);
+      }, 0);
+    });
+  })();
+
+  (() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    ['resize', 'orientationchange', 'visibilitychange'].forEach(evt =>
+        window.addEventListener(evt, setVh, { passive: true })
+    );
+    setVh();
+  })();

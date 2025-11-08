@@ -269,31 +269,51 @@ summary.more-btn::after {
   margin-top: 8px;
 }
 
-/* CSS-only Lightbox (iframe) */
+:root { --vh: 1vh; }
+
+/* CSS-only Lightbox */
 .lightbox {
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+
+  /* 높이: 1순위 100dvh, 2순위 --vh 폴백 */
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
+
   background: rgba(0,0,0,.85);
-  display: none;
+  display: none;              /* :target 일 때만 보이게 */
   align-items: center;
   justify-content: center;
   z-index: 10010;
-  padding: 0;                      /* ✅ 여백 제거 */
+
+  /* safe-area 고려 + 기본 여백 16px */
+  padding-top: max(env(safe-area-inset-top), 16px);
+  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+  padding-left: max(env(safe-area-inset-left), 16px);
+  padding-right: max(env(safe-area-inset-right), 16px);
+
+  overscroll-behavior: contain;  /* iOS 바운스 방지 */
 }
 .lightbox:target { display: flex; }
 
-/* 프레임을 뷰포트 꽉 채우기 (모바일 대응) */
+.lightbox:target { display: flex; }
+
+/* 프레임을 뷰포트 꽉 채우기 */
 .lightbox__frame {
   width: 100vw;
-  height: 100svh;                  /* ✅ 모바일 주소창 대비 svh */
+
+  /* 1순위 */
+  height: 100dvh;
+  max-height: 100dvh;
+
+  /* 2순위 폴백 */
+  height: calc(var(--vh, 1vh) * 100);
+  max-height: calc(var(--vh, 1vh) * 100);
+
   max-width: 100vw;
-  max-height: 100svh;
   border: 0;
   background: #000;
-}
-
-/* 라이트박스 레이아웃 살짝 여백 */
-.lightbox {
-  padding: 16px; /* 양옆 여백 조금 */
 }
 
 /* 좌우 네비 화살표 */
@@ -318,20 +338,29 @@ summary.more-btn::after {
 .lightbox__next { right: max(12px, env(safe-area-inset-right)); }
 .lightbox__nav:active { background: rgba(0,0,0,.5); }
 
-/* 프레임 → 이미지로 변경: 카드 폭(컨테이너)과 화면 세로에 맞게 */
+/* 라이트박스 이미지(비율 유지, 화면 안에서 최대) */
 .lightbox__img {
-  /* 가로: 카드 최대폭(var(--card-max))을 넘지 않되, 화면 좌우 여백(32px) 고려 */
-  width: min(var(--card-max), calc(100vw - 32px));
+  /* 가로: 카드 최대폭을 넘지 않되, 양 옆 safe-area 포함 여백 고려 */
+  width: min(
+          var(--card-max, 1200px),
+          calc(100vw - (max(env(safe-area-inset-left), 16px) + max(env(safe-area-inset-right), 16px)))
+  );
   max-width: 100%;
   height: auto;
 
-  /* 세로: 상단 닫기/네비 여유를 두고 화면 높이 내로 */
-  max-height: calc(100svh - 96px);
-  object-fit: contain;      /* 이미지 비율 유지 */
+  /* 세로: safe-area + UI 여유(약 80~96px) 감안 */
+  max-height: calc(100dvh - (max(env(safe-area-inset-top), 16px) + max(env(safe-area-inset-bottom), 16px) + 80px));
+  max-height: calc((var(--vh, 1vh) * 100) - (max(env(safe-area-inset-top), 16px) + max(env(safe-area-inset-bottom), 16px) + 80px));
+
+  object-fit: contain;
   display: block;
   border-radius: 8px;
-  background: #000;         /* 로딩 시 배경 */
+  background: #000;
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
+
+  -webkit-user-drag: none;
+  user-select: none;
+  touch-action: none; /* 모바일 확대 차단 */
 }
 
 @supports not (height: 100svh) {
@@ -341,13 +370,23 @@ summary.more-btn::after {
 /* 닫기 버튼 (그대로 사용 가능) */
 .lightbox__close {
   position: fixed;
-  top: 12px; right: 16px;
+  top: max(env(safe-area-inset-top), 12px);
+  right: max(env(safe-area-inset-right), 16px);
   color: #fff;
   text-decoration: none;
   font-size: 32px;
   line-height: 1;
+  padding: 8px;
 }
 
+/* 모바일 확대 추가 차단(라이트박스 한정) */
+.lightbox,
+.lightbox__img,
+.gallery,
+.gallery-item {
+  /* 핀치/이중탭 제스처 비활성화 */
+  touch-action: none;
+}
 
 /* ===== Info Box (세로형 블록 스타일로 변경) ===== */
 
