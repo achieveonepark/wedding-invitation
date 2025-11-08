@@ -20,25 +20,28 @@
         e.preventDefault();
       }
     });
-
-    /* iOS Safari: 제스처 핀치 확대 차단 */
+    
+    // 라이트박스가 열렸을 때만 핀치 차단
+    const isLightboxOpen = () => !!document.querySelector('.lightbox:target');
+    const onGesture = (e) => { if (isLightboxOpen()) e.preventDefault(); };
     ['gesturestart','gesturechange','gestureend'].forEach(type => {
-      document.addEventListener(type, e => e.preventDefault());
+      document.addEventListener(type, onGesture, { passive: false });
     });
-
-    /* 멀티터치(2손가락) 이동 = 핀치 시도 차단 */
+    
+    // 라이트박스가 열렸을 때만 멀티터치/핀치 차단
     document.addEventListener('touchmove', e => {
+      if (!isLightboxOpen()) return;
       if (e.touches && e.touches.length > 1) e.preventDefault();
-      // 사파리 비표준 scale 값도 방어
       if (typeof e.scale === 'number' && e.scale !== 1) e.preventDefault();
     }, { passive: false });
 
-    /* 더블탭 확대 방지 (iOS/모바일 공통) */
+    // 라이트박스가 열렸을 때만 더블탭 확대 차단
     let lastTouchEnd = 0;
     document.addEventListener('touchend', e => {
+      if (!isLightboxOpen()) return;
       const now = Date.now();
       if (now - lastTouchEnd < 300) {
-        e.preventDefault(); // 더블탭으로 인한 확대 차단
+        e.preventDefault();
       }
       lastTouchEnd = now;
     }, { passive: false });
@@ -577,7 +580,7 @@
           }
           if (!Kakao.isInitialized?.()) {
             // ✅ 여기에 본인 JavaScript 키 입력
-            Kakao.init('여기에_본인_카카오_JavaScript_키');
+            Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17');
           }
 
           // ✅ OG 메타가 있는 최종 배포 URL

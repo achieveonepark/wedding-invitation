@@ -379,13 +379,16 @@ summary.more-btn::after {
   padding: 8px;
 }
 
-/* 모바일 확대 추가 차단(라이트박스 한정) */
-.lightbox,
-.lightbox__img,
+/* 라이트박스가 열렸을 때만 제스처 차단 */
+.lightbox:target,
+.lightbox:target * {
+  touch-action: none;
+}
+
+/* 갤러리 영역은 스크롤 가능하도록 복구 */
 .gallery,
 .gallery-item {
-  /* 핀치/이중탭 제스처 비활성화 */
-  touch-action: none;
+  touch-action: auto;   /* 또는 pan-y; */
 }
 
 /* ===== Info Box (세로형 블록 스타일로 변경) ===== */
