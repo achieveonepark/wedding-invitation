@@ -1,4 +1,4 @@
-  /* =========================================================
+/* =========================================================
   0) 유틸
   ========================================================= */
   document.addEventListener('DOMContentLoaded', () => {
@@ -571,46 +571,17 @@
     const shareBtn = document.getElementById('kakaoShareFooter');
     const copyBtn  = document.getElementById('copyUrlButton');
 
+    // 카카오 JavaScript 키로 초기화
+    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+      Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17'); // 여기에 본인의 JavaScript 키 입력
+      console.log('Kakao SDK 초기화 완료:', Kakao.isInitialized());
+    }
+    
     if (shareBtn) {
-      // script.js 안의 공유 버튼 클릭 핸들러 부분을 다음으로 교체
-      shareBtn.addEventListener('click', async () => {
-        try {
-          if (!window.Kakao) {
-            alert('Kakao SDK 로딩 전이에요.');
-            return;
-          }
-          if (!Kakao.isInitialized()) {
-            Kakao.init('0233600f7ae1cf9a5ca201c5d9f2ea17'); // 같은 앱의 JS 키
-          }
-
-          // 1) 공유 대상 URL은 고정 (도메인 불일치 방지)
-          const requestUrl = 'https://somchae.wedding';
-
-          // 2) 디바이스 판별 (모바일은 카카오톡으로, PC는 폴백)
-          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-          if (isMobile) {
-            Kakao.Share.sendScrap({ requestUrl });
-            return;
-          }
-
-          // ---- PC 폴백 UX ----
-          // (A) PC에 카톡 깔려 있으면 실제로는 카카오가 intent를 열려고 시도함.
-          //     실패할 수 있으니 바로 링크 복사/안내를 함께 제공.
-          try {
-            Kakao.Share.sendScrap({ requestUrl });
-          } catch (_) {
-            // 무시: 아래 폴백 진행
-          }
-
-          // (B) 폴백: 링크 복사 + 안내
-          await navigator.clipboard.writeText(requestUrl);
-          alert('PC에서는 카카오톡 공유가 제한될 수 있어요.\n링크를 복사해드렸어요! (붙여넣기 해서 공유해주세요)');
-        } catch (e) {
-          console.error('[Kakao] error', e);
-          alert('공유 중 오류가 발생했어요.');
-        }
+      shareBtn.addEventListener('click', function() {
+        shareKakao();
       });
+    }
 
     if (copyBtn) {
       copyBtn.addEventListener('click', async () => {
@@ -664,3 +635,40 @@
     );
     setVh();
   })();
+
+// 카카오톡 공유 함수
+function shareKakao() {
+  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+    alert('카카오톡 공유 기능을 사용할 수 없습니다.');
+    return;
+  }
+
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: '박성일 ❤️ 김채린 결혼합니다',
+      description: '2026년 02월 08일 일요일 오후 12시 20분\n웨딩 시그니처 2층 트리니티홀',
+      imageUrl: 'https://somchae.wedding/images/gallary/01.jpg',
+      link: {
+        mobileWebUrl: 'https://somchae.wedding',
+        webUrl: 'https://somchae.wedding',
+      },
+    },
+    buttons: [
+      {
+        title: '청첩장 보기',
+        link: {
+          mobileWebUrl: 'https://somchae.wedding',
+          webUrl: 'https://somchae.wedding',
+        },
+      },
+    ],
+    success: function(response) {
+      console.log('카카오톡 공유 성공:', response);
+    },
+    fail: function(error) {
+      console.error('카카오톡 공유 실패:', error);
+      alert('카카오톡 공유에 실패했습니다.');
+    },
+  });
+}
