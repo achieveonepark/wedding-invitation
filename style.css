@@ -424,6 +424,13 @@ summary.more-btn::after {
   opacity: 0.9;           /* 살짝 부드럽게 */
 }
 
+
+.map-info {
+  align-items: center;
+  object-fit: contain;
+  opacity: 0.9;           /* 살짝 부드럽게 */
+}
+
 .info-value {
   font-size: 15px;
   line-height: 1.7;
