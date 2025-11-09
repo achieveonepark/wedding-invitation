@@ -533,7 +533,7 @@ summary.more-btn::after {
 }
 
 .wedding-title {
-  font: 500 15px/1.2 'titleFont', serif; /* 필요시 14~16px 조절 */
+  font: 500 20px/1.2 'titleFont', serif; /* 필요시 14~16px 조절 */
   font-size: clamp(28px, 6vw, 64px);
   color: #a0dcff;
   letter-spacing: 1px;
@@ -574,7 +574,7 @@ summary.more-btn::after {
   position: fixed; top: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: var(--card-max); height: 100svh;
   border-radius: 16px; overflow: hidden;
-  background: url('./images/cover.jpg') center/cover no-repeat;
+  background: url('./images/cover.png') center/cover no-repeat;
   display: flex; align-items: center; justify-content: center;
   z-index: 9999;
   animation: coverFadeOut var(--cover-dur) var(--cover-delay) ease-out forwards;
