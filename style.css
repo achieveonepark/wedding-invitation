@@ -426,10 +426,25 @@ summary.more-btn::after {
 
 
 .map-info {
-  align-items: center;
-  object-fit: contain;
-  opacity: 0.9;           /* 살짝 부드럽게 */
+  display: flex;              /* 가운데 정렬을 위해 flex 사용 */
+  justify-content: center;    /* 가로 가운데 */
+  align-items: center;        /* 세로 가운데 */
+  width: 100%;                /* 부모 영역 가득 */
+  position: relative;         /* 테두리 위치 기준 */
 }
+
+.map-info img {
+  display: block;
+  max-width: 100%;            /* 화면 좌우에 꽉 차게 */
+  height: auto;
+  object-fit: contain;        /* 비율 유지하며 전체 표시 */
+  margin: 0 auto;             /* 남는 공간 균등 분배 */
+  border: 4px solid #2aa7ff;  /* 🔹 파란색 테두리 */
+  border-radius: 8px;         /* 살짝 둥근 모서리 */
+  box-sizing: border-box;     /* 테두리 포함한 크기 계산 */
+  opacity: 0.9;               /* 기존 부드러운 느낌 유지 */
+}
+
 
 .info-value {
   font-size: 15px;
