@@ -190,6 +190,15 @@ body {
   font-family: 'GowoonDodum', sans-serif;
 }
 
+.heart2-title {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+  font-family: 'GowoonDodum', sans-serif;
+}
+
 #accounts + .contact-trigger {
   text-align: center;
   padding: 40px 0;
@@ -645,12 +654,15 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 0;                     /* 세그먼트는 gap 없이 붙임 */
-  margin-top: 15px;
+  gap: 0;
+  margin: 12px auto 0;
 
-  /* 모바일에서도 반드시 한 줄 */
+  /* 🔹 화면보다 살짝 작게 만들어서 잘림 방지 */
+  width: 96%;
+  max-width: 400px;
+
   flex-wrap: nowrap;
-  overflow-x: auto;           /* 아주 좁은 화면에서도 줄바꿈 대신 가로 스크롤 */
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -660,8 +672,8 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  font-size: 14px;
+  padding: 9px 12px;
+  font-size: 13.5px;
   line-height: 1;
   color: #0b74c1;
   background: #fff;
@@ -688,8 +700,8 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 
 /* 아이콘 크기 축소 */
 .chip-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 18px;
   object-fit: contain;
   opacity: .95;
