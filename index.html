@@ -147,17 +147,26 @@ https://somchae.wedding" />
       <!-- 네이버 지도 컨테이너 -->
       <div id="naver-map" style="width: 100%; height: 300px; border-radius: 10px; overflow: hidden;"></div>
 
-      <div class="map-buttons">
-        <a href="https://map.naver.com/p/search/..." target="_blank" class="map-btn" aria-label="네이버 지도 열기">
-          <img src="images/naver_map.webp" alt="네이버 지도" class="btn-icon">
+      <div class="map-buttons" role="group" aria-label="지도 및 길찾기 열기">
+        <a href="https://map.naver.com/p/search/웨딩시그니처" target="_blank"
+           class="map-chip map-chip--naver" aria-label="네이버 지도 열기" role="button">
+          <img src="images/naver_map.webp" alt="" class="chip-icon" aria-hidden="true">
+          <span class="chip-text">네이버지도</span>
         </a>
-        <a href="tmap://route?rGoName=웨딩시그니처&rGoX=126.9125&rGoY=37.5489" target="_blank" class="map-btn" aria-label="티맵 경로 안내 열기">
-          <img src="images/tmap.svg" alt="TMap" class="btn-icon">
+
+        <a href="tmap://route?rGoName=웨딩시그니처&rGoX=126.9125&rGoY=37.5489" target="_blank"
+           class="map-chip map-chip--tmap" aria-label="티맵 경로 안내 열기" role="button">
+          <img src="images/tmap.svg" alt="" class="chip-icon" aria-hidden="true">
+          <span class="chip-text">T맵 길찾기</span>
         </a>
-        <a href="https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=%2C%2C480353%2C1124968&rt1=&rt2=%EC%9B%A8%EB%94%A9+%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98+%ED%8A%B8%EB%A6%AC%EB%8B%88%ED%8B%B0%ED%99%80&rtIds=%2C&rtTypes=%2C" target="_blank" class="map-btn" aria-label="카카오맵 열기">
-          <img src="images/kakao_map.png" alt="카카오맵" class="btn-icon">
+
+        <a href="https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=%2C%2C480353%2C1124968&rt1=&rt2=%EC%9B%A8%EB%94%A9+%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98+%ED%8A%B8%EB%A6%AC%EB%8B%88%ED%8B%B0%ED%99%80&rtIds=%2C&rtTypes=%2C"
+           target="_blank" class="map-chip map-chip--kakao" aria-label="카카오맵 열기" role="button">
+          <img src="images/kakao_map.png" alt="" class="chip-icon" aria-hidden="true">
+          <span class="chip-text">카카오맵</span>
         </a>
       </div>
+
       <div class="info-box">
         <div class="info-item">
           <div class="info-label">

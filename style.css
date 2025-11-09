@@ -640,42 +640,78 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 }
 @keyframes reveal-circle { to { clip-path: circle(142% at 50% 50%); -webkit-clip-path: circle(142% at 50% 50%); } }
 
-/* 지도 아이콘을 '이미지 자체 버튼'로 */
+/* ===== Map button group (segment style) ===== */
 .map-buttons {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: stretch;
+  gap: 0;                     /* 세그먼트는 gap 없이 붙임 */
   margin-top: 15px;
-}
 
-.map-buttons .map-btn {
-  /* 기존 .btn 스타일 무력화 */
-  padding: 0;
-  border: none;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  display: inline-block;
-  line-height: 0;           /* 이미지 주변 여백 제거 */
-  cursor: pointer;
+  /* 모바일에서도 반드시 한 줄 */
+  flex-wrap: nowrap;
+  overflow-x: auto;           /* 아주 좁은 화면에서도 줄바꿈 대신 가로 스크롤 */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.map-buttons::-webkit-scrollbar { display: none; }
 
-.map-buttons .map-btn .btn-icon {
-  width: 40px;              /* 필요 시 80~120px로 조절 */
-  height: auto;
-  display: block;
+.map-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1;
+  color: #0b74c1;
+  background: #fff;
+  border: 1px solid var(--sky-accent);
+  text-decoration: none;
+  user-select: none;
+
+  /* 세그먼트 연결 */
+  border-right-width: 0;                /* 가운데들은 경계선 공유 */
 }
-
-/* 살짝 인터랙션(선택 사항) */
-.map-buttons .map-btn:focus-visible img,
-.map-buttons .map-btn:hover img {
-  filter: brightness(0.95);
-  outline: 2px solid rgba(42,167,255,0.25);
+.map-chip:first-child {
+  border-radius: 999px 0 0 999px;
+}
+.map-chip:last-child {
+  border-right-width: 1px;              /* 마지막만 오른쪽 보더 */
+  border-radius: 0 999px 999px 0;
+}
+.map-chip:focus-visible {
+  outline: 2px solid rgba(42,167,255,0.35);
   outline-offset: 2px;
 }
-.map-buttons .map-btn:active img {
-  transform: scale(0.98);
+.map-chip:hover { background: #f3faff; }
+.map-chip:active { transform: translateY(1px); }
+
+/* 아이콘 크기 축소 */
+.chip-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  object-fit: contain;
+  opacity: .95;
 }
+
+/* 텍스트 줄바꿈 방지 (한 줄 유지) */
+.chip-text {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* 아주 작은 화면 대비: 글자만 살짝 축소 */
+@media (max-width: 340px){
+  .map-chip { padding: 9px 12px; font-size: 13px; }
+  .chip-icon { width: 16px; height: 16px; }
+}
+
+/* (선택) 서비스별 살짝 톤 차이 */
+.map-chip--naver { border-color: #2aa7ff; }
+.map-chip--tmap  { border-color: #1c7fd6; }
+.map-chip--kakao { border-color: #2aa7ff; }
+
 .parking-info { white-space: pre-wrap; text-align: left; }
 
 .flower-icon { width: 20px; height: 20px; margin-bottom: 2px;}
