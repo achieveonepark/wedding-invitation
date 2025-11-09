@@ -425,13 +425,19 @@ summary.more-btn::after {
 }
 
 
+/* 이미지 태그에 직접 붙는 클래스 */
 .map-info {
-  display: flex;              /* 가운데 정렬을 위해 flex 사용 */
-  justify-content: center;    /* 가로 가운데 */
-  align-items: center;        /* 세로 가운데 */
-  width: 100%;                /* 부모 영역 가득 */
-  position: relative;         /* 테두리 위치 기준 */
+  display: block;
+  width: 115%;           /* 부모보다 약간 크게 */
+  max-width: none;
+  height: auto;
+  transform: translateX(-7.5%); /* 가운데 정렬 보정 */
+  border-radius: 8px;
+  box-sizing: border-box;
+  opacity: 0.9;
 }
+
+
 
 .map-info img {
   display: block;
