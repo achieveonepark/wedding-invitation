@@ -590,7 +590,7 @@ summary.more-btn::after {
 
 .wedding-title {
   font: 500 20px/1.2 'titleFont', serif; /* 필요시 14~16px 조절 */
-  font-size: clamp(28px, 6vw, 64px);
+  font-size: 80px;
   color: #a0dcff;
   letter-spacing: 1px;
   opacity: 0;
