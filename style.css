@@ -519,6 +519,7 @@ summary.more-btn::after {
 .contact-buttons { display: flex; gap: 8px; }
 .line2{ color: #33a23d; /* 2호선 – 서울 지하철 초록색 */ font-weight: 600; }
 .line6 { color: #b5500b; /* 6호선 – 갈색/주황톤 */  font-weight: 600; }
+.blue-text { color: #037eed;   font-weight: 600; }
 .btn {
   padding: 8px 16px;
   border: 1px solid #9bd4ff;   /* sky 톤으로 보정 */
