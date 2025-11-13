@@ -86,10 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     wantPlay = true;
     updateUI();
 
-    // autoplay 시도 (많은 브라우저에서 막힐 수 있음)
-    if (hasInteracted) {
-      widget.play();
-    }
+    // autoplay 시도 (성공 여부는 브라우저에 따라 다름)
+    widget.play();
 
     // 버튼 서서히 보이게 (기존 CSS .show 활용)
     btn.classList.add('show');
