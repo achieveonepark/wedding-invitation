@@ -47,144 +47,101 @@
     }, { passive: false });
   });
 
+/* =========================================================
+1) BGM: SoundCloud 단순 ON/OFF 토글 (초기 상태 ON, 첫 입력 후 재생)
+========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const iframe = document.getElementById('scPlayer');
+  const btn    = document.getElementById('bgmToggle');
+  const icon   = document.getElementById('bgmIcon');
 
-  /* =========================================================
-  1) BGM: SoundCloud 스트리밍 위젯 컨트롤
-  ========================================================= */
-  (() => {
-    const iframe = document.getElementById('scPlayer');
-    const btn    = document.getElementById('bgmToggle');
-    const icon   = document.getElementById('bgmIcon');
+  // 필수 요소나 SoundCloud API가 없으면 종료
+  if (!iframe || !btn || !icon || typeof SC === 'undefined') return;
 
-    if (!iframe || !btn || !icon || !window.SC) return;
+  const widget       = SC.Widget(iframe);
+  let isReady        = false; // 위젯 로드 완료 여부
+  let wantPlay       = true;  // "논리상" ON 상태 (처음부터 ON)
+  let hasInteracted  = false; // 브라우저가 "사용자 입력 있었다"고 인정했는지
 
-    const widget = SC.Widget(iframe);
-    const saved = localStorage.getItem('wedding_bgm') ?? 'on';
-    let isOn = saved === 'on';
-    let userInteracted = false;
-    let ready = false;
-    let wasPlayingBeforeHide = false;
-
-    function updateUI() {
-      if (isOn) {
-        icon.textContent = '🔊';
-        btn.classList.add('is-playing');
-        btn.setAttribute('aria-pressed', 'true');
-        btn.setAttribute('aria-label', '배경음악 끄기');
-      } else {
-        icon.textContent = '🔇';
-        btn.classList.remove('is-playing');
-        btn.setAttribute('aria-pressed', 'false');
-        btn.setAttribute('aria-label', '배경음악 켜기');
-      }
+  function updateUI() {
+    if (wantPlay) {
+      icon.textContent = '🔊';
+      btn.classList.add('is-playing');
+      btn.setAttribute('aria-pressed', 'true');
+      btn.setAttribute('aria-label', '배경음악 끄기');
+    } else {
+      icon.textContent = '🔇';
+      btn.classList.remove('is-playing');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', '배경음악 켜기');
     }
+  }
 
-    // SoundCloud 위젯 준비 완료
-    widget.bind(SC.Widget.Events.READY, () => {
-      ready = true;
-      // 기본 볼륨 (0~100)
-      widget.setVolume(60);
-      updateUI();
-    });
+  // 위젯 준비 완료
+  widget.bind(SC.Widget.Events.READY, () => {
+    isReady = true;
+    widget.setVolume(60);
 
-    async function tryPlay() {
-      if (!ready) return;
-      // 모바일 정책상 사용자 인터랙션 전에는 재생 불가
-      if (!userInteracted) {
-        btn.classList.add('need-tap');
-        return;
-      }
+    // 처음부터 "ON 상태"로 UI 세팅
+    wantPlay = true;
+    updateUI();
+
+    // autoplay 시도 (많은 브라우저에서 막힐 수 있음)
+    if (hasInteracted) {
       widget.play();
     }
 
-    function tryPause() {
-      if (!ready) return;
+    // 버튼 서서히 보이게 (기존 CSS .show 활용)
+    btn.classList.add('show');
+  });
+
+  // 실제 재생/일시정지를 호출하는 헬퍼
+  function applyPlayState() {
+    if (!isReady) return;
+
+    if (wantPlay) {
+      // 소리 ON을 원하는 상태
+      if (hasInteracted) {
+        widget.play();
+      }
+      // 아직 사용자 입력 없으면, 브라우저 정책 때문에 여기서 막힐 수 있음
+    } else {
+      // 소리 OFF 상태
       widget.pause();
     }
+  }
 
-    async function turnOn() {
-      isOn = true;
-      localStorage.setItem('wedding_bgm', 'on');
-      updateUI();
-      await tryPlay();
-    }
+  // 페이지 어디든 "첫 입력"이 들어오면 hasInteracted = true 로 바꾸고 재생 시도
+  const markInteracted = () => {
+    if (hasInteracted) return;
+    hasInteracted = true;
 
-    function turnOff() {
-      isOn = false;
-      localStorage.setItem('wedding_bgm', 'off');
-      tryPause();
-      updateUI();
-    }
+    // 논리상 ON 상태라면, 이제 진짜 재생 시도
+    applyPlayState();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const title = document.getElementById('coverTitle');
-      const cover = document.getElementById('cover');
-      const bgmBtn = document.getElementById('bgmToggle');
-      if (!title || !cover || !bgmBtn) return;
+    // 더 이상 필요 없으니 리스너 제거
+    window.removeEventListener('pointerdown', markInteracted, true);
+    window.removeEventListener('touchstart', markInteracted, true);
+    window.removeEventListener('keydown', markInteracted, true);
+  };
 
-      // 제목 애니메이션이 끝나면 커버 사라지게
-      title.addEventListener('animationend', (e) => {
-        if (e.animationName === 'title-seq') {
-          cover.classList.add('fade-out');
+  window.addEventListener('pointerdown', markInteracted, true);
+  window.addEventListener('touchstart',  markInteracted, true);
+  window.addEventListener('keydown',     markInteracted, true);
 
-          // 커버가 다 사라질 시간을 고려해 약간 늦게 등장
-          setTimeout(() => {
-            bgmBtn.classList.add('show');
-          }, 1000); // fade-out 1초 뒤
-        }
-      });
-    });
-
-    // 커버 애니가 끝났을 때 자동재생 시도
-    document.addEventListener('DOMContentLoaded', () => {
-      const cover = document.getElementById('cover');
-      if (cover) {
-        cover.addEventListener('animationend', () => {
-          if (isOn) tryPlay();
-        }, { once: true });
-      } else {
-        if (isOn) tryPlay();
-      }
-    });
-
-    // 사용자 인터랙션 표시
-    const markInteracted = () => {
-      if (userInteracted) return;
-      userInteracted = true;
-      btn.classList.remove('need-tap');
-      if (isOn) tryPlay();
-      window.removeEventListener('pointerdown', markInteracted, { capture: true });
-      window.removeEventListener('keydown', markInteracted, { capture: true });
-      window.removeEventListener('touchstart', markInteracted, { capture: true, passive: true });
-    };
-    window.addEventListener('pointerdown', markInteracted, { capture: true });
-    window.addEventListener('keydown',     markInteracted, { capture: true });
-    window.addEventListener('touchstart',  markInteracted, { capture: true, passive: true });
-
-    // 토글 버튼
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (isOn) turnOff();
-      else turnOn();
-    });
-
-    // 탭 전환/백그라운드
-    document.addEventListener('visibilitychange', () => {
-      if (!ready) return;
-      if (document.visibilityState === 'hidden') {
-        // 현재 재생 중 여부 저장
-        widget.isPaused((paused) => { wasPlayingBeforeHide = !paused; });
-        tryPause();
-      } else {
-        if (isOn && wasPlayingBeforeHide) tryPlay();
-      }
-    });
-  })();
+  // 버튼 클릭으로 ON/OFF 토글
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    wantPlay = !wantPlay;
+    updateUI();
+    applyPlayState();
+  });
+});
 
 
-  /* =========================================================
-  2) 커버 스크롤락 (원본 유지)
-  ========================================================= */
+/* =========================================================
+2) 커버 스크롤락 (원본 유지)
+========================================================= */
   document.addEventListener('DOMContentLoaded', () => {
   const cover = document.getElementById('cover');
   if (!cover) return;

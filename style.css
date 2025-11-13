@@ -274,8 +274,26 @@ summary.more-btn::after {
 }
 
 /* 추가 갤러리 상단 간격을 그리드 갭과 동일하게 조정 */
+/* 숨겨진 추가 갤러리: 기본은 접혀 있고, 부드럽게 열리게 만들기 */
 .gallery--more {
   margin-top: 8px;
+
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+
+  transition:
+          max-height 0.4s ease,
+          opacity 0.3s ease,
+          transform 0.3s ease;
+}
+
+/* details 가 open 되었을 때 쇼로록 펼치는 상태 */
+.gallery-more[open] .gallery--more {
+  max-height: 2000px; /* 이미지 개수 많으니까 여유롭게 */
+  opacity: 1;
+  transform: translateY(0);
 }
 
 :root { --vh: 1vh; }
@@ -672,9 +690,9 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 .map-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 12px;
-  font-size: 13.5px;
+  gap: 7px;
+  padding: 8px 11px;
+  font-size: 12px;
   line-height: 1;
   color: #0b74c1;
   background: #fff;
