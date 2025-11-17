@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <link rel="preconnect" href="https://w.soundcloud.com" crossorigin>
-  <link rel="preconnect" href="https://api.soundcloud.com" crossorigin>
-  <link rel="preconnect" href="https://i1.sndcdn.com" crossorigin>
-  <link rel="preconnect" href="https://cf-media.sndcdn.com" crossorigin>
 
-  <link rel="dns-prefetch" href="https://w.soundcloud.com">
-  <link rel="dns-prefetch" href="https://api.soundcloud.com">
-  <link rel="dns-prefetch" href="https://i1.sndcdn.com">
-  <link rel="dns-prefetch" href="https://cf-media.sndcdn.com">
   <link rel="preload" as="image" href="./images/cover.png" imagesrcset="./images/cover.png" />
   <link rel="preload" as="image" href="./images/background.JPG" />
   <link rel="preload" href="./fonts/Parisienne-Regular.ttf" as="font" type="font/ttf" crossorigin>
@@ -39,19 +31,17 @@ https://somchae.wedding" />
 </head>
 
 <body>
-  <button id="bgmToggle" class="bgm-btn" aria-label="배경음악 켜기" aria-pressed="false">
-    <span id="bgmIcon">🔊</span>
-  </button>
-  <!-- SoundCloud (숨김) -->
-  <!-- SoundCloud Player (Encrypted Media 허용) -->
-  <iframe
-          id="scPlayer"
-          allow="autoplay; encrypted-media"
-          loading="eager"
-          style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;border:0;"
-          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/e-soundtrax/wedding-background-music-piano-instrumental-romantic&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=false">
-  </iframe>
-  <script src="https://w.soundcloud.com/player/api.js"></script>
+<button id="bgmToggle" class="bgm-btn" aria-label="배경음악 켜기" aria-pressed="false">
+  <span id="bgmIcon">🔊</span>
+</button>
+
+<!-- 로컬 BGM (숨김 재생용) -->
+<audio
+        id="bgmAudio"
+        src="./musics/The Wedding.wav"
+        preload="auto"
+        loop
+></audio>
   
   <!-- 커버 화면 -->
   <div class="container">

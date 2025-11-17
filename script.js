@@ -48,20 +48,23 @@
   });
 
 /* =========================================================
-1) BGM: SoundCloud 단순 ON/OFF 토글 (초기 상태 ON, 첫 입력 후 재생)
+1) BGM: 로컬 wav (The Wedding.wav) ON/OFF 토글
+   - 초기 상태: ON
+   - 접근 시 autoplay 시도 + 첫 사용자 입력 후 다시 재생 시도
 ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
-  const iframe = document.getElementById('scPlayer');
-  const btn    = document.getElementById('bgmToggle');
-  const icon   = document.getElementById('bgmIcon');
+  const audio = document.getElementById('bgmAudio');
+  const btn   = document.getElementById('bgmToggle');
+  const icon  = document.getElementById('bgmIcon');
 
-  // 필수 요소나 SoundCloud API가 없으면 종료
-  if (!iframe || !btn || !icon || typeof SC === 'undefined') return;
+  if (!audio || !btn || !icon) return;
 
-  const widget       = SC.Widget(iframe);
-  let isReady        = false; // 위젯 로드 완료 여부
-  let wantPlay       = true;  // "논리상" ON 상태 (처음부터 ON)
-  let hasInteracted  = false; // 브라우저가 "사용자 입력 있었다"고 인정했는지
+  let wantPlay      = true;  // 논리상 BGM ON 상태
+  let hasInteracted = false; // 브라우저가 "사용자 입력" 인지했는지
+
+  // 기본 설정
+  audio.loop   = true;
+  audio.volume = 0.6;
 
   function updateUI() {
     if (wantPlay) {
@@ -77,47 +80,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 위젯 준비 완료
-  widget.bind(SC.Widget.Events.READY, () => {
-    isReady = true;
-    widget.setVolume(60);
-
-    // 처음부터 "ON 상태"로 UI 세팅
-    wantPlay = true;
-    updateUI();
-
-    // autoplay 시도 (성공 여부는 브라우저에 따라 다름)
-    widget.play();
-
-    // 버튼 서서히 보이게 (기존 CSS .show 활용)
-    btn.classList.add('show');
-  });
-
-  // 실제 재생/일시정지를 호출하는 헬퍼
-  function applyPlayState() {
-    if (!isReady) return;
+  async function applyPlayState() {
+    if (!audio) return;
 
     if (wantPlay) {
-      // 소리 ON을 원하는 상태
-      if (hasInteracted) {
-        widget.play();
+      try {
+        await audio.play(); // autoplay 시도 (막히면 catch로 떨어짐)
+      } catch (err) {
+        console.log('BGM autoplay blocked (브라우저 정책):', err);
+        // 여기서 별도 알람은 안 띄우고, 버튼/첫 터치에서 다시 시도
       }
-      // 아직 사용자 입력 없으면, 브라우저 정책 때문에 여기서 막힐 수 있음
     } else {
-      // 소리 OFF 상태
-      widget.pause();
+      audio.pause();
     }
   }
 
-  // 페이지 어디든 "첫 입력"이 들어오면 hasInteracted = true 로 바꾸고 재생 시도
+  // 첫 상호작용 시 다시 재생 시도 (모바일 자동재생 정책 대응)
   const markInteracted = () => {
     if (hasInteracted) return;
     hasInteracted = true;
 
-    // 논리상 ON 상태라면, 이제 진짜 재생 시도
-    applyPlayState();
+    if (wantPlay) {
+      applyPlayState();
+    }
 
-    // 더 이상 필요 없으니 리스너 제거
     window.removeEventListener('pointerdown', markInteracted, true);
     window.removeEventListener('touchstart', markInteracted, true);
     window.removeEventListener('keydown', markInteracted, true);
@@ -134,6 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUI();
     applyPlayState();
   });
+
+  // 초기 UI 세팅 + 자동재생 시도
+  updateUI();
+  btn.classList.add('show');  // CSS에서 서서히 나타나는 효과 유지
+  applyPlayState();
 });
 
 
@@ -791,3 +782,4 @@ document.querySelectorAll(".lightbox").forEach((lb, index) => {
   window.addEventListener("touchend", endDrag);
 
 });
+
