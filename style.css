@@ -354,16 +354,49 @@ summary.more-btn::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  text-decoration: none;
-  background: rgba(0,0,0,.35);
+
+  /* 텍스트(◀ ▶)는 숨기고, 아이콘은 ::before로 */
+  font-size: 0;
+  color: transparent;
+
+  background: rgba(0,0,0,.45);
   border-radius: 999px;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(6px); /* 살짝 블러로 유리 느낌 */
 }
-.lightbox__prev { left: max(12px, env(safe-area-inset-left)); }
-.lightbox__next { right: max(12px, env(safe-area-inset-right)); }
-.lightbox__nav:active { background: rgba(0,0,0,.5); }
+
+.lightbox__nav::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+}
+
+
+/* 왼쪽(이전) 화살표 */
+.lightbox__prev {
+  left: max(12px, env(safe-area-inset-left));
+}
+.lightbox__prev::before {
+  transform: rotate(135deg);   /* ◀ 방향 */
+  margin-left: 3px;
+}
+
+/* 오른쪽(다음) 화살표 */
+.lightbox__next {
+  right: max(12px, env(safe-area-inset-right));
+}
+.lightbox__next::before {
+  transform: rotate(-45deg);   /* ▶ 방향 */
+  margin-right: 3px;
+}
+
+.lightbox__nav:active {
+  background: rgba(0,0,0,.7);
+}
 
 /* 라이트박스 이미지(비율 유지, 화면 안에서 최대) */
 .lightbox__img {
@@ -388,6 +421,16 @@ summary.more-btn::after {
   -webkit-user-drag: none;
   user-select: none;
   touch-action: none; /* 모바일 확대 차단 */
+
+  opacity: 0;
+  transform: translateX(12px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+/* 라이트박스가 활성화되었을 때 슬라이드 인 */
+.lightbox:target .lightbox__img {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @supports not (height: 100svh) {
@@ -590,7 +633,7 @@ summary.more-btn::after {
 
 .wedding-title {
   font: 500 20px/1.2 'titleFont', serif; /* 필요시 14~16px 조절 */
-  font-size: 80px;
+  font-size: 70px;
   color: #a0dcff;
   letter-spacing: 1px;
   opacity: 0;
@@ -843,33 +886,46 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
   justify-self: end;
 }
 
-/* 복사 버튼 변형 */
-.btn-copy{
-  white-space: nowrap;
-}
-
 .acc-row--bank *{
   overflow-wrap: normal;
   word-break: keep-all;
+}
+/* 복사 버튼 변형 */
+.btn-copy{
+  white-space: nowrap;
+  margin-top: 4px;
 }
 
 /* 간단 계좌 한 줄형 */
 .bank-simple {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;   /* 세로 배치 */
+  align-items: center;      /* 전체 가운데 정렬 */
+  gap: 8px;
   padding: 14px 0 10px;
   text-align: center;
   font-size: 15px;
   color: #334e68;
 }
+/* 위쪽 한 줄 (은행 + 번호) */
+.bank-simple .bank-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+/* 복사 버튼 */
+.bank-simple .btn-copy {
+  display: inline-flex;     /* 버튼 크기만큼만 */
+  width: auto;
+  padding: 6px 14px;
+  margin: 0 auto;
+}
+
+/* 줄 안 잘리게 */
 .bank-simple span {
   white-space: nowrap;
 }
-
 /* 은행 배지 */
 .bank-name {
   background: #eef6ff;
@@ -924,9 +980,9 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 
 /* 토스트 */
 #toast{
-  position: fixed;
-  left: 50%;
-  bottom: max(16px, env(safe-area-inset-bottom));
+  position: fixed !important;  /* ✅ 무조건 화면 기준 고정 */
+  left: 50% !important;
+  bottom: max(16px, env(safe-area-inset-bottom)) !important;
   transform: translateX(-50%) translateY(20px);
   background: rgba(0,0,0,.8);
   color: #fff;
@@ -935,15 +991,14 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
   font-size: 13px;
   opacity: 0;
   pointer-events: none;
-  z-index: 10020;
+  z-index: 99999; /* 제일 위로 올려버리자 */
   transition: opacity .25s ease, transform .25s ease;
 }
+
 #toast.show{
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-
 
 /* ===================================================================
    Modal (Centered) + Tabs + Accordion
@@ -1379,4 +1434,60 @@ img {
 .clipboard-btn:focus-visible {
   outline: 2px solid rgba(0,0,0,.2);
   outline-offset: 2px;
+}
+
+
+
+
+/* ==========================
+   Lightbox 고급 화살표 UI
+   ========================== */
+
+.lightbox__nav {
+  position: fixed !important;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10010;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  color: transparent;
+}
+
+.lightbox__nav::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+}
+
+.lightbox__prev { left: 16px; }
+.lightbox__prev::before { transform: rotate(135deg); }
+
+.lightbox__next { right: 16px; }
+.lightbox__next::before { transform: rotate(-45deg); }
+
+/* 슬라이드 효과 */
+.lightbox__img {
+  transition: transform .28s ease, opacity .28s ease;
+}
+
+.lightbox.slide-left .lightbox__img {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+.lightbox.slide-right .lightbox__img {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.ghost-drag {
+  transition: none;
 }

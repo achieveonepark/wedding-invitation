@@ -627,3 +627,167 @@ function shareKakao() {
     },
   });
 }
+
+/* =========================================================
+   라이트박스 슬라이드 / 드래그 / 고급 애니메이션 최종본
+   ========================================================= */
+
+document.querySelectorAll(".lightbox").forEach((lb, index) => {
+
+  /* -------------------------------------------------
+     기본 변수 및 요소
+     ------------------------------------------------- */
+  const items = [...document.querySelectorAll(".lightbox__img")]; // 갤러리 전체 이미지
+  const total = items.length;
+
+  let current = index; // 현재 라이트박스의 인덱스
+  let isDragging = false;
+  let startX = 0;
+  let currentX = 0;
+  const threshold = 25;
+
+  const img  = lb.querySelector(".lightbox__img");
+  const prev = lb.querySelector(".lightbox__prev");
+  const next = lb.querySelector(".lightbox__next");
+
+  const getX = e => (e.touches ? e.touches[0].clientX : e.clientX);
+
+  /* -------------------------------------------------
+     드래그 전용 ghost 레이어 (원본 img는 절대 이동 안 함)
+     ------------------------------------------------- */
+  const ghostDrag = document.createElement("img");
+  ghostDrag.className = "ghost-drag";
+  ghostDrag.style.position = "absolute";
+  ghostDrag.style.top = "50%";
+  ghostDrag.style.left = "50%";
+  ghostDrag.style.transform = "translate(-50%, -50%)";
+  ghostDrag.style.width = "92%";
+  ghostDrag.style.maxHeight = "90%";
+  ghostDrag.style.objectFit = "contain";
+  ghostDrag.style.pointerEvents = "none";
+  ghostDrag.style.opacity = "0";
+  ghostDrag.style.zIndex = "9998";
+  lb.appendChild(ghostDrag);
+
+
+  /* =========================================================
+     ★ 자연스러운 이중 슬라이드 애니메이션
+     ========================================================= */
+  function animateSlide(direction, newSrc) {
+    // 1) ghost 생성
+    const ghost = document.createElement("img");
+    ghost.src = newSrc;
+    ghost.className = "lb-ghost";
+    ghost.style.position = "absolute";
+    ghost.style.top = "50%";
+    ghost.style.left = "50%";
+    ghost.style.width = "92%";
+    ghost.style.maxHeight = "90%";
+    ghost.style.objectFit = "contain";
+    ghost.style.pointerEvents = "none";
+    ghost.style.zIndex = "9999";
+    ghost.style.opacity = "1"; // ★ 항상 보이게
+    ghost.style.transform = "translate(-50%, -50%)";
+    lb.appendChild(ghost);
+
+    // 2) 원본 img는 바로 새 이미지로 교체 & 투명하게 유지
+    img.src = newSrc;
+    img.style.opacity = "0";          // ★ 깜빡임 방지 핵심
+    img.style.transform = "translateX(0)";
+    img.style.transition = "none";    // animateSlide 중 transition 제거
+
+    // 3) ghost 시작 offset
+    ghost.style.transition = "transform .28s ease, opacity .28s ease";
+    ghost.style.transform =
+        direction === "left"
+            ? "translate(calc(-50% + 40px), -50%)"
+            : "translate(calc(-50% - 40px), -50%)";
+
+    void ghost.offsetWidth;
+
+    // 4) ghost 이동 → 이미지 전환 애니메이션 여기서만 발생
+    ghost.style.transform = "translate(-50%, -50%)";
+
+    setTimeout(() => {
+      // 5) ghost 제거
+      ghost.remove();
+      // 6) img를 즉시 opacity=1 (transition 없음 → 깜빡임 없음)
+      img.style.transition = "none";
+      img.style.opacity = "1";
+    }, 280);
+  }
+
+
+  /* =========================================================
+     Prev / Next 버튼
+     ========================================================= */
+  prev.addEventListener("click", e => {
+    e.preventDefault();
+    current = (current - 1 + total) % total;
+    animateSlide("right", items[current].src);
+  });
+
+  next.addEventListener("click", e => {
+    e.preventDefault();
+    current = (current + 1) % total;
+    animateSlide("left", items[current].src);
+  });
+
+
+  /* =========================================================
+     드래그 / 스와이프
+     ========================================================= */
+  function startDrag(e) {
+    isDragging = true;
+    startX = getX(e);
+    currentX = startX;
+
+    ghostDrag.src = img.src;
+    ghostDrag.style.opacity = "1";
+    img.style.opacity = "0";
+    ghostDrag.style.transition = "none";
+  }
+
+  function onDrag(e) {
+    if (!isDragging) return;
+    currentX = getX(e);
+    const diff = currentX - startX;
+
+    ghostDrag.style.transform =
+        `translate(calc(-50% + ${diff}px), -50%)`;
+  }
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+
+    const diff = currentX - startX;
+
+    ghostDrag.style.transition = "transform .2s ease, opacity .2s ease";
+    ghostDrag.style.transform = "translate(-50%, -50%)";
+    ghostDrag.style.opacity = "0";
+
+    if (diff < -threshold) {
+      current = (current + 1) % total;
+      animateSlide("left", items[current].src);
+    } else if (diff > threshold) {
+      current = (current - 1 + total) % total;
+      animateSlide("right", items[current].src);
+    } else {
+      img.style.opacity = "1";
+    }
+
+    setTimeout(() => {
+      ghostDrag.src = "";
+    }, 200);
+  }
+
+  img.addEventListener("mousedown", startDrag);
+  window.addEventListener("mousemove", onDrag);
+  window.addEventListener("mouseup", endDrag);
+
+  img.addEventListener("touchstart", startDrag, { passive: true });
+  window.addEventListener("touchmove", onDrag, { passive: true });
+  window.addEventListener("touchend", endDrag);
+
+});
