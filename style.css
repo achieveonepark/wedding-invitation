@@ -109,7 +109,7 @@ body {
   overflow: hidden;
   text-align: center;
   padding: 520px 20px 80px;
-  background: url('./images/gallary/04.jpg') center/cover no-repeat;
+  background: url('./images/background.JPG') center/cover no-repeat;
   color: #fff;
 }
 .header::before {
