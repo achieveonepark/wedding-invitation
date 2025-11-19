@@ -593,8 +593,8 @@ function shareKakao() {
     objectType: 'feed',
     content: {
       title: '박성일 ❤️ 김채린 결혼합니다',
-      description: '2026년 02월 08일 일요일 오후 12시 20분\n웨딩 시그니처 2층 트리니티홀',
-      imageUrl: 'https://somchae.wedding/images/gallary/01.jpg',
+      description: '2026년 02월 08일 일요일 오후 12시 20분\n웨딩 시그니처 2층 트리니티홀\nhttps://somchae.wedding',
+      imageUrl: 'https://somchae.wedding/images/kakao.JPG',
       link: {
         mobileWebUrl: 'https://somchae.wedding',
         webUrl: 'https://somchae.wedding',
