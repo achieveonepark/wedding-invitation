@@ -798,35 +798,48 @@ body.is-cover-open { position: fixed; inset: 0; width: 100%; }
 .parent-name {  font-weight: 500; }
 .dot {  color: #000000;  font-weight: 200; }
 .child-relation {  font-size: 15px;  margin-left: 10px; /* 관계 앞 여백 */  color: #6a6a6a; }
-.child-name {  font-weight: 700;  font-size: 18px; } 
+.child-name {  font-weight: 700;  font-size: 18px; }
+
+
 /* ===================================================================
-   Snowfall (Decorative)
+   Snowfall (Decorative) — 이미지 눈송이
    =================================================================== */
 .snow-container {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 2; overflow: hidden;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
 }
-@keyframes snowfall { 0% { transform: translateY(0); } 100% { transform: translateY(200vh); } }
-.snow-container::before,
-.snow-container::after {
-  content: ''; position: absolute; top: -100vh; left: 0; background: transparent;
-  animation: snowfall linear infinite;
+
+/* 개별 눈송이 */
+.snowflake {
+  position: absolute;
+  top: -40px; /* 화면 위에서 시작 */
+  width: 24px;
+  height: 24px;
+  background: url('./images/snow_white.png') center/contain no-repeat;
+  opacity: 0.9;
+  animation-name: snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
-.snow-container::before {
-  width: 1px; height: 1px;
-  /* 50개 점 눈송이 (작은 레이어) */
-  box-shadow: 185px 186px #fff, 213px 133px #fff, 103px 10px #fff, 333px 352px #fff, 41px 493px #fff, 344px 23px #fff, 156px 452px #fff, 183px 33px #fff, 32px 259px #fff, 45px 138px #fff, 332px 18px #fff, 12px 309px #fff, 25px 499px #fff, 125px 233px #fff, 229px 430px #fff, 342px 329px #fff, 435px 180px #fff, 234px 369px #fff, 335px 471px #fff, 442px 23px #fff, 12px 12px #fff, 42px 322px #fff, 172px 432px #fff, 252px 200px #fff, 312px 122px #fff, 432px 433px #fff, 192px 4px #fff, 82px 183px #fff, 152px 333px #fff, 282px 144px #fff, 352px 44px #fff, 412px 300px #fff, 62px 222px #fff, 132px 42px #fff, 262px 332px #fff, 382px 212px #fff, 482px 492px #fff, 22px 52px #fff, 92px 272px #fff, 142px 482px #fff, 292px 312px #fff, 362px 102px #fff, 452px 242px #fff, 2px 412px #fff, 112px 12px #fff, 242px 222px #fff, 372px 422px #fff, 492px 342px #fff, 322px 42px #fff;
-  animation-duration: 25s;
+
+/* 떨어지는 애니메이션 */
+@keyframes snow-fall {
+  0% {
+    transform: translate3d(0, -40px, 0) rotate(0deg);
+  }
+  100% {
+    /* 20px는 살짝 바람 불듯이 오른쪽으로 밀리는 값이라 그대로 둬도 됨 */
+    transform: translate3d(20px, 110vh, 0) rotate(720deg); /* 2바퀴 회전 */
+  }
 }
-.snow-container::after {
-  width: 2px; height: 2px;
-  /* 50개 점 눈송이 (중간 레이어) */
-  box-shadow: 383px 33px #fff, 21px 437px #fff, 159px 403px #fff, 39px 29px #fff, 439px 229px #fff, 133px 179px #fff, 339px 339px #fff, 239px 439px #fff, 49px 159px #fff, 199px 259px #fff, 349px 459px #fff, 49px 109px #fff, 199px 209px #fff, 349px 409px #fff, 499px 119px #fff, 99px 219px #fff, 249px 419px #fff, 399px 129px #fff, 449px 329px #fff, 99px 439px #fff, 29px 149px #fff, 299px 349px #fff, 449px 49px #fff, 99px 159px #fff, 149px 359px #fff, 299px 59px #fff, 399px 259px #fff, 499px 459px #fff, 89px 109px #fff, 189px 309px #fff, 289px 209px #fff, 389px 409px #fff, 489px 119px #fff, 79px 219px #fff, 179px 419px #fff, 279px 129px #fff, 379px 329px #fff, 479px 439px #fff, 19px 49px #fff, 219px 249px #fff, 419px 449px #fff, 19px 199px #fff, 219px 399px #fff, 419px 99px #fff, 119px 299px #fff, 319px 499px #fff, 419px 199px #fff, 119px 499px #fff;
-  animation-duration: 15s;
-}
-/* 커버에서 눈을 즉시 흐르게 */
-.snow-container--cover::before { animation-delay: -15s; }
-.snow-container--cover::after  { animation-delay: -10s; }
+
+
+
 
 /* ===== Accounts (계좌 안내) ===== */
 .account-note{

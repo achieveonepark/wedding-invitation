@@ -783,3 +783,70 @@ document.querySelectorAll(".lightbox").forEach((lb, index) => {
 
 });
 
+// =========================================================
+// 7) 이미지 눈송이 생성
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.snow-container');
+  if (!container) return;
+
+  // 🔹 화면에 유지할 최대 눈송이 개수
+  const MAX_FLAKES = 400;
+
+  // 🔹 떨어지는 속도 범위 (초 단위)
+  const FALL_MIN = 10;   // 최소 10초
+  const FALL_MAX = 22;   // 최대 22초
+
+  // 🔹 한 번에 생성할 눈 개수 / 생성 주기
+  const SPAWN_PER_TICK = 3;   // 틱마다 3개씩 생성
+  const TICK_MS = 150;        // 0.15초마다 한 번씩
+
+  let currentFlakes = 0;
+
+  function createFlake() {
+    if (!container) return;
+    if (currentFlakes >= MAX_FLAKES) return;
+
+    const flake = document.createElement('div');
+    flake.className = 'snowflake';
+
+    // ✅ 크기 랜덤 (그때 쓰던 값 유지)
+    const size = 10 + Math.random() * 25; // 10 ~ 35px
+    flake.style.width = `${size}px`;
+    flake.style.height = `${size}px`;
+
+    // ✅ 좌우 위치 랜덤
+    const left = Math.random() * 100;
+    flake.style.left = `${left}vw`;
+
+    // ✅ 항상 "위에서" 시작
+    flake.style.top = '-40px';
+
+    // ✅ 떨어지는 속도 랜덤
+    const duration = FALL_MIN + Math.random() * (FALL_MAX - FALL_MIN);
+    flake.style.animationDuration = `${duration}s`;
+    flake.style.animationDelay = '0s';
+
+    // 애니메이션 끝나면 DOM에서 제거
+    flake.addEventListener('animationend', () => {
+      flake.remove();
+      currentFlakes--;
+    });
+
+    container.appendChild(flake);
+    currentFlakes++;
+  }
+
+  // 처음 들어왔을 때도 어느 정도 채워보이게, 초기에 조금 뿌려주기
+  for (let i = 0; i < MAX_FLAKES / 2; i++) {
+    createFlake();
+  }
+
+  // 이후에는 주기적으로 계속 눈 생성
+  setInterval(() => {
+    for (let i = 0; i < SPAWN_PER_TICK; i++) {
+      createFlake();
+    }
+  }, TICK_MS);
+});
+
