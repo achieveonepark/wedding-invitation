@@ -798,7 +798,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const FALL_MAX = 22;   // 최대 22초
 
   // 🔹 한 번에 생성할 눈 개수 / 생성 주기
-  const SPAWN_PER_TICK = 3;   // 틱마다 3개씩 생성
+  const SPAWN_PER_TICK = 10;   // 틱마다 3개씩 생성
   const TICK_MS = 150;        // 0.15초마다 한 번씩
 
   let currentFlakes = 0;
