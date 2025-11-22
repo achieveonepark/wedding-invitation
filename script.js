@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flake.className = 'snowflake';
 
     // ✅ 크기 랜덤 (그때 쓰던 값 유지)
-    const size = 2 + Math.random() * 25;
+    const size = 2 + Math.random() * 10;
     flake.style.width = `${size}px`;
     flake.style.height = `${size}px`;
 
