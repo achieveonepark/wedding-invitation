@@ -799,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 🔹 한 번에 생성할 눈 개수 / 생성 주기
   const SPAWN_PER_TICK = 10;   // 틱마다 3개씩 생성
-  const TICK_MS = 150;        // 0.15초마다 한 번씩
+  const TICK_MS = 10;        // 0.15초마다 한 번씩
 
   let currentFlakes = 0;
 
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flake.className = 'snowflake';
 
     // ✅ 크기 랜덤 (그때 쓰던 값 유지)
-    const size = 5 + Math.random() * 25; // 10 ~ 35px
+    const size = 2 + Math.random() * 25;
     flake.style.width = `${size}px`;
     flake.style.height = `${size}px`;
 
@@ -835,11 +835,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     container.appendChild(flake);
     currentFlakes++;
-  }
-
-  // 처음 들어왔을 때도 어느 정도 채워보이게, 초기에 조금 뿌려주기
-  for (let i = 0; i < MAX_FLAKES / 2; i++) {
-    createFlake();
   }
 
   // 이후에는 주기적으로 계속 눈 생성
