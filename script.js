@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   // 🔹 화면에 유지할 최대 눈송이 개수
-  const MAX_FLAKES = 200;
+  const MAX_FLAKES = 50;
 
   // 🔹 떨어지는 속도 범위 (초 단위)
   const FALL_MIN = 10;   // 최소 10초
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flake.className = 'snowflake';
 
     // ✅ 크기 랜덤 (그때 쓰던 값 유지)
-    const size = 10 + Math.random() * 25; // 10 ~ 35px
+    const size = 5 + Math.random() * 25; // 10 ~ 35px
     flake.style.width = `${size}px`;
     flake.style.height = `${size}px`;
 
