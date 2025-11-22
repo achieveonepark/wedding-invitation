@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   // 🔹 화면에 유지할 최대 눈송이 개수
-  const MAX_FLAKES = 400;
+  const MAX_FLAKES = 200;
 
   // 🔹 떨어지는 속도 범위 (초 단위)
   const FALL_MIN = 10;   // 최소 10초
