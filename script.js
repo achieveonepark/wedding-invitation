@@ -791,21 +791,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   // 🔹 화면에 유지할 최대 눈송이 개수
-  const MAX_FLAKES = 50;
+  const MAX_FLAKES = 100;
 
   // 🔹 떨어지는 속도 범위 (초 단위)
   const FALL_MIN = 10;   // 최소 10초
   const FALL_MAX = 22;   // 최대 22초
 
   // 🔹 한 번에 생성할 눈 개수 / 생성 주기
-  const SPAWN_PER_TICK = 10;   // 틱마다 3개씩 생성
-  const TICK_MS = 10;        // 0.15초마다 한 번씩
+  const SPAWN_PER_TICK = 40;   // 틱마다 3개씩 생성
+  const TICK_MS = 100;        // 0.15초마다 한 번씩
 
-  let currentFlakes = 0;
 
   function createFlake() {
     if (!container) return;
-    if (currentFlakes >= MAX_FLAKES) return;
 
     const flake = document.createElement('div');
     flake.className = 'snowflake';
